@@ -1,0 +1,46 @@
+program {
+    DibujarUnaG()
+    IrAlBorde(Este)
+    IrAlBorde(Sur)
+    DibujarUnaH()
+}
+
+procedure DibujarLineaVertical(dir,cant,color){
+    repeat(cant){
+        Poner(color)
+        Mover(dir)
+    }
+}
+
+procedure DibujarUnaG(){
+    DibujarLineaVertical(Norte,5,Verde)
+    Mover(Sur)
+    Mover(Este)
+    DibujarLineaVertical(Este,4,Verde)
+    IrAlBorde(Sur)
+    IrAlBorde(Oeste)
+    Mover(Este)
+    DibujarLineaVertical(Este,4,Verde)
+    Mover(Norte)
+    Mover(Oeste)
+    Poner(Verde)
+    Mover(Norte)
+    DibujarLineaVertical(Oeste,3,Verde)
+    Mover(Sur)
+    Mover(Este)
+    Poner(Verde)
+}
+
+procedure DibujarUnaH(){
+    DibujarLineaVertical(Norte,5,Rojo)
+    repeat(3){
+        Mover(Sur)
+    }
+    repeat(2){
+        Mover(Oeste)
+        Poner(Rojo)
+    }
+    Mover(Oeste)
+    IrAlBorde(Sur)
+    DibujarLineaVertical(Norte,5,Rojo)
+}

@@ -1,0 +1,47 @@
+program {
+    DibujarRectánguloRojoYNegroDe5(3)
+}
+
+procedure DibujarRectánguloRojoYNegroDe5(cantidadDeFilas){
+    /*
+        PROPÓSITO: Poner un rectángulo sólido de 5 celdas de ancho y 3
+        celdas de alto, en la que cada celda tenga una bolita de color
+        Rojo y una de color Negro. El cabezal comienza y termina en el
+        vértice inferior izquierda del mismo.
+        PRECONDICIONES:
+            * Hay al menos 4 celdas al Este y 2 celdas al Norte de la celda
+            actual.
+    */
+    
+    repeat(cantidadDeFilas){
+        DibujarLíneaRojaYNegraDeTamaño5()
+    }
+    IrAlBorde(Sur)
+   
+}
+ 
+
+procedure DibujarLíneaRojaYNegraDeTamaño5(){
+    /*
+        PROPOSITO: Dibujar una linea horizontal con bolitas de color negro y rojo de 5 celdas de tamaño
+        PRECONDICION: El tablero debe tener minimo 4 celdas al Este
+    */
+    
+    repeat(5){
+        PonerUnaNegraYUnaRoja()
+        Mover(Este)
+    }
+    Mover4VecesAlOeste()
+    Mover(Norte)
+}
+
+procedure PonerUnaNegraYUnaRoja(){
+    Poner(Rojo)
+    Poner(Negro)
+}
+
+procedure Mover4VecesAlOeste(){
+    repeat(5){
+        Mover(Oeste)
+    }
+}

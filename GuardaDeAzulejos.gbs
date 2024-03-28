@@ -1,0 +1,48 @@
+program{
+    PonerBolitaVerde()
+    PonerBolitasRojas()
+    PonerGuardaDe5Azulejos()
+}
+
+procedure PonerGuardaDe5Azulejos(){
+    /*
+        PROPOSITO: Poner una guarda de azulejos de 5 de longitud de color negro
+    */
+    repeat(5){
+        repeat(5){
+            Poner(Negro)
+        }
+        Mover(Este)
+    }
+}
+
+procedure PonerBolitaVerde(){
+    /*
+        PROPOSITO: Poner una linea horizontal de bolitas verdes de 5 celdas de longitud
+        PRECONDICION: El tablero debe tener mas de 4 celdas hacia el Este
+    */
+
+    repeat(5){
+        Poner(Verde)
+        Mover(Este)
+    }
+    IrAlBorde(Oeste)
+}
+
+
+procedure PonerBolitasRojas(){
+    /*
+        PROPOSITO: Poner una linea horizontal de 9 bolitas rojas por cada celda con 5 de longitud
+        PRECONDICION: El tablero debe tener mas de 4 celdas hacia el Este
+    */
+    repeat(5){
+        repeat(9){
+            Poner(Rojo)
+        }
+        Mover(Este)
+    }
+    IrAlBorde(Oeste)
+}
+
+
+

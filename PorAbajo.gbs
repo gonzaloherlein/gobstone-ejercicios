@@ -1,0 +1,32 @@
+program{
+    DibujarCuadradoMulticolorDeLado4()
+}
+
+procedure PonerUnaDeCada(){
+    Poner(Rojo)
+    Poner(Negro)
+    Poner(Azul)
+    Poner(Verde)
+}
+
+procedure Mover3VecesAlOeste(){
+    repeat(4){
+        Mover(Oeste)
+    }
+}
+
+procedure DibujarLíneaMulticolorDeLargo4(){
+    repeat(4){
+        PonerUnaDeCada()
+        Mover(Este)
+    }
+    Mover3VecesAlOeste()
+    Mover(Norte)
+}
+
+procedure  DibujarCuadradoMulticolorDeLado4(){
+    repeat(4){
+        DibujarLíneaMulticolorDeLargo4();
+    }
+    IrAlBorde(Sur)
+}

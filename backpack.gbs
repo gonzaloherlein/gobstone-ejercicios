@@ -1,0 +1,10 @@
+program{
+    PonerUnaDeCada()
+}
+
+procedure PonerUnaDeCada(){
+    Poner(Rojo)
+    Poner(Negro)
+    Poner(Azul)
+    Poner(Verde)
+}
