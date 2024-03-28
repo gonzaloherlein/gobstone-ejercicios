@@ -1,0 +1,98 @@
+program{
+    PonerGuardaEnL()
+
+}
+
+procedure IniciarDeLineaVertical(){
+    IrAlBorde(Oeste)
+    Mover(Sur)
+    Mover(Sur)
+}
+
+procedure PonerBolitaVerdeEnVertical(){
+    repeat(2){
+        Poner(Verde)
+        Mover(Norte)
+    }
+    IniciarDeLineaVertical()
+}
+
+procedure PonerBolitasRojasEnVertical(){
+    repeat(2){
+        repeat(9){
+            Poner(Rojo)
+        }
+        Mover(Norte)
+    }
+    IniciarDeLineaVertical()
+}
+
+procedure PonerGuardaDe5AzulejosEnVertical(){
+    repeat(2){
+        repeat(5){
+            Poner(Negro)
+        }
+        Mover(Norte)
+    }
+    IrAlBorde(Sur)
+}
+
+
+procedure PonerGuardaDe5AzulejosEnHorizontal(){
+    /*
+        PROPOSITO: Poner una guarda de azulejos de 5 de longitud de color negro
+    */
+    repeat(3){
+        repeat(5){
+            Poner(Negro)
+        }
+        Mover(Este)
+    }
+}
+
+procedure PonerBolitaVerdeEnHorizontal(){
+    /*
+        PROPOSITO: Poner una linea horizontal de bolitas verdes de 5 celdas de longitud
+        PRECONDICION: El tablero debe tener mas de 4 celdas hacia el Este
+    */
+
+    repeat(3){
+        Poner(Verde)
+        Mover(Este)
+    }
+    IrAlBorde(Oeste)
+}
+
+
+procedure PonerBolitasRojasEnHorizontal(){
+    /*
+        PROPOSITO: Poner una linea horizontal de 9 bolitas rojas por cada celda con 5 de longitud
+        PRECONDICION: El tablero debe tener mas de 4 celdas hacia el Este
+    */
+    repeat(3){
+        repeat(9){
+            Poner(Rojo)
+        }
+        Mover(Este)
+    }
+    IrAlBorde(Oeste)
+}
+
+procedure PonerGuardaEnL(){
+    
+    /*
+        PROPOSITO: Poner la guarda en forma de L
+        PRECONDICION: El tablero tiene que tener al menos 3 celdas vacias al norte y 3 al Este
+    */
+    
+    PonerBolitaVerdeEnHorizontal()
+    PonerBolitasRojasEnHorizontal()
+    PonerGuardaDe5AzulejosEnHorizontal()
+    IrAlBorde(Oeste)
+    Mover(Norte)
+    PonerBolitaVerdeEnVertical()
+    PonerBolitasRojasEnVertical()
+    PonerGuardaDe5AzulejosEnVertical()
+}
+
+

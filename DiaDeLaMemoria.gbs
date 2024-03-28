@@ -1,0 +1,58 @@
+program{
+    /*
+        PROPOSITO: Registrar el dia de la memoria con bolitas
+    */
+    RegistrarElDiaDeLaMemoria()
+}
+
+procedure RegistrarElDiaDeLaMemoria(){
+    /*
+        PROPOSITO: En la celda actual va a tener que poner 24 bolitas azules, 
+        3 bolitas rojas en la celda lindante al Este de la actual
+        y por ultimo 1976 bolitas verdes en la celda lindante al este de la anterior celda.
+        PRECONDICION: El tablero debe estar vacio y tiene que tener como minimo, 
+        1 fila y 3 columnas de longitud.
+    */
+    Poner24BolitasAzules()
+    Mover(Este)
+    Poner3BolitasRojas()
+    Mover(Este)
+    Poner1976BolitasVerdes()
+    IrAlBorde(Oeste)
+}
+
+procedure Poner24BolitasAzules(){
+    /*
+        PROPOSITO: Poner 24 bolitas azules en la celda actual
+        PRECONDICION: La celda actual debe estar vacia
+    */
+    repeat(24){
+        Poner(Azul)
+    }
+}
+
+procedure Poner3BolitasRojas(){
+    /*
+        PROPOSITO: Poner 3 bolitas rojas en la celda actual
+        PRECONDICION: La celda actual debe estar vacia
+    */
+    repeat(3){
+        Poner(Rojo)
+    }
+}
+
+
+
+procedure Poner1976BolitasVerdes(){
+    /*
+        PROPOSITO: Poner 1976 bolitas verdes en la celda actual
+        PRECONDICION: La celda actual debe estar vacia
+    */
+    repeat(1976){
+        Poner(Verde)
+    }
+}
+
+
+
+
