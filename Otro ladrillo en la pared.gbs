@@ -1,0 +1,100 @@
+program{
+    /*
+    Prop.: Construye una pared de ladrillos de 4 celdas de ancho y 4 de alto.
+    Prec.:El tablero tiene exactamente 4x4, y está vacío.
+          El cabezal se encuentra en la esquina Sur-Oeste del tablero.
+    Obs.: Cada fila contiene dos hileras de ladrillos.
+    */
+    repeat(3){
+        PonerHileraDoble()
+        PasarASiguienteHileraDoble()
+    }
+    PonerHileraDoble()
+    IrAlBorde(Sur) //IrAHileraInicial
+}
+
+procedure PonerHileraDoble(){
+    /*
+    Prop.: Pone una hilera doble de ladrillos (parte inferior y superior de la 
+       celda) en la fila actual.
+    Prec.: *El cabezal se encuentra en la celda más al Oeste de la fila.
+           * No hay cemento ni ladrillos en ninguna celda de la fila.
+           *Hay exactamente 3 celdas al Este de la actual.
+    */
+    PonerCementoParaHilera()
+    PonerLadrillosDeHileraInferior()
+    PonerCementoParaHilera()
+    PonerLadrillosDeHileraSuperior()
+}
+
+procedure PonerCementoParaHilera(){
+    /*
+    Prop.: Pone cemento en todas las celdas de la fila.
+    Prec.: *El cabezal se encuentra en la celda más al Oeste de la fila.
+           *Hay exactamente 3 celdas al Este de la actual.
+           *No hay cemento en ninguna celda de la fila, o bien,
+        hay cemento pero con una hilera de ladrillos sin cemento en la parte de 
+        arriba.
+    */
+    repeat(3){
+        PonerCemento()
+        Mover(Este) //PasarASiguienteUbicacion()
+    }
+    PonerCemento()
+    IrAlBorde(Oeste) //IrAlPrincipioDeLaHilera()
+}
+
+procedure PonerLadrillosDeHileraInferior(){
+    /*
+    Prop.: Pone una hilera de ladrillos en la parte inferior de la celda, para 
+           cada celda de la fila.
+    Prec.: *El cabezal se encuentra en la celda más al Oeste de la fila.
+           *Hay exactamente 3 celdas al Este de la actual.
+           *Hay cemento en cada celda de la fila.
+           *No hay ladrillos en ninguna celda de la fila.
+    */
+    repeat(3){
+        PonerLadrillo()
+        Mover(Este) //PasarASiguienteUbicacion()
+    }
+    PonerLadrillo()
+    IrAlBorde(Oeste) //IrAlPrincipioDeLaHilera()
+}
+
+procedure PonerLadrillosDeHileraSuperior(){
+    /*
+    Prop.: Pone una hilera de ladrillos en la parte superior de la celda, para 
+           cada celda de la fila.
+    Prec.: *El cabezal se encuentra en la celda más al Oeste de la fila.
+           *Hay exactamente 3 celdas al Este de la actual.
+           *La hilera inferior de la fila se ha colocado completa y hay cemento
+        sobre la misma en cada celda.
+    */
+    PonerMedioLadrilloEnElBordeOeste()
+    repeat(3){
+        Mover(Este) //PasarASiguienteUbicacion()
+        PonerLadrillo()
+    }
+    PonerMedioLadrilloEnElBordeEste()
+    IrAlBorde(Oeste) //IrAlPrincipioDeLaHilera()
+}
+
+procedure PasarASiguienteHileraDoble(){
+    /*
+        PROPÓSITO: Posiciona el cabezal para colocar una próxima hilera doble de ladrillos.
+    PRECONDICIONES:
+      * Debe haber al menos una celda al Norte.
+
+    */
+    Mover(Norte)
+}
+
+
+
+
+
+
+
+
+
+

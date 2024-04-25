@@ -1,0 +1,74 @@
+program{
+    DibujarBaseEstirada()
+    HacerUnaDiagonal()
+    DibujarMedioEstirado()
+    HacerUnaDiagonal()
+    Mover(Este)
+    DibujarPuntaEstirada()
+}
+
+procedure DibujarPuntaEstirada(){
+    DibujarPunta()
+    Mover(Norte)
+    DibujarPunta()
+}
+
+procedure DibujarBaseEstirada(){
+    DibujarBase(5)
+    Mover(Norte)
+    DibujarBase(5)
+}
+
+procedure DibujarMedioEstirado(){
+    DibujarMedio(3)
+    Mover(Norte)
+    Mover(Este)
+    DibujarMedio(3)
+}
+
+procedure ColocarCantidadDeBolitasNegras(cant){
+    repeat(cant){
+        Poner(Negro)
+        Mover(Este)
+    }
+    IrAlBorde(Oeste)
+}
+
+procedure HacerUnaDiagonal(){
+    Mover(Norte)
+    Mover(Este)
+}
+
+procedure DibujarBase(cant){
+    /*
+        PROPÓSITO: Dibuja una base de pirámide de 5 celdas de lado
+        PRECONDICIONES:
+            * La celda actual debe estar vacía
+            * Debe haber cuatro celdas vacías al Este del cabezal
+    */
+    ColocarCantidadDeBolitasNegras(5)
+
+    
+}
+        
+procedure DibujarMedio(cant){
+    /* PROPÓSITO: Dibuja un sector del medio de pirámide de 3 celdas de lado
+        PRECONDICIONES:
+            * La celda actual debe estar vacía
+            * Debe haber dos celdas vacías al Este del cabezal
+    */
+    ColocarCantidadDeBolitasNegras(3)
+
+}
+
+procedure DibujarPunta(){
+    /*
+        PROPÓSITO: Dibuja una punta de pirámide
+        PRECONDICIONES:
+            * La celda actual debe estar vacía
+    */
+    Poner(Negro)
+}
+
+
+
