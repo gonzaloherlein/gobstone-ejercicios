@@ -1,0 +1,81 @@
+program{
+    return(nroBolitasTotalDeColor_(Rojo))
+}
+
+function nroBolitasTotalDeColor_(color){
+    IrALaPrimeraCeldaEnUnRecorridoAlEsteYNorte()
+    nroTotalDeBolitasDeColor := nroBolitas(Rojo)
+    while(haySiguienteCeldaEnUnRecorridoAlEsteYNorte()){
+        nroTotalDeBolitasDeColor := nroTotalDeBolitasDeColor + nroBolitas(Rojo)
+        IrALaSiguienteCeldaEnUnRecorridoEsteYNorte()
+    }
+    return(nroTotalDeBolitasDeColor)
+}
+
+
+
+function cantidadDeCeldasConBolitasDeColor_(color){
+    IrALaPrimeraCeldaEnUnRecorridoAlEsteYNorte()
+    celdasConBolitasDeColor := unoSiHayDeColor_YceroSiNo(color)
+    while(haySiguienteCeldaEnUnRecorridoAlEsteYNorte()){
+        celdasConBolitasDeColor := celdasConBolitasDeColor + unoSiHayDeColor_YceroSiNo(color)
+        IrALaSiguienteCeldaEnUnRecorridoEsteYNorte()
+    }
+    return(celdasConBolitasDeColor)
+}
+
+function unoSiHayDeColor_YceroSiNo(color){
+    return(
+        choose 1 when (hayBolitas(color))
+               0 otherwise
+        )
+}
+
+
+
+function nroVacias(){
+    IrALaPrimeraCeldaEnUnRecorridoAlEsteYNorte()
+    celdasVacias := unoSiHay_ceroSiNo()
+    while(haySiguienteCeldaEnUnRecorridoAlEsteYNorte()){
+        if(esCeldaVacia()){
+            celdasVacias := celdasVacias + unoSiHay_ceroSiNo()
+        }
+        IrALaSiguienteCeldaEnUnRecorridoEsteYNorte()
+    }
+    return(celdasVacias)
+}
+
+function unoSiHay_ceroSiNo(){
+    return(
+        choose 1 when (esCeldaVacia())
+               0 otherwise
+        )
+}
+
+
+function esCeldaVacia(){
+    return(
+        not hayBolitas(Rojo) &&
+        not hayBolitas(Verde) &&
+        not hayBolitas(Negro) &&
+        not hayBolitas(Azul)
+        )
+}
+
+procedure IrALaPrimeraCeldaEnUnRecorridoAlEsteYNorte(){
+    IrAlBorde(Oeste)
+    IrAlBorde(Sur)
+}
+
+function haySiguienteCeldaEnUnRecorridoAlEsteYNorte(){
+    return(puedeMover(Este) || puedeMover(Norte))
+}
+
+procedure IrALaSiguienteCeldaEnUnRecorridoEsteYNorte(){
+    if(puedeMover(Este)){
+        Mover(Este)
+    }else{
+        Mover(Norte)
+        IrAlBorde(Oeste)
+    }
+}
