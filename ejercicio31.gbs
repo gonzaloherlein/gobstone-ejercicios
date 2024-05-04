@@ -1,0 +1,19 @@
+program{
+    Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_(5,Norte,Rojo,3,3)
+}
+
+procedure Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_(celdas,direccion,color,incremento,numeroInicial){
+    cantidadDeCeldas := 0
+    numero := numeroInicial
+    while(cantidadDeCeldas <= celdas && puedeMover(direccion)){
+       repeat(numero){
+           Poner(color)
+       }
+       Mover(direccion)
+       numero := numero + incremento
+    }
+    repeat(numero){
+        Poner(color)
+    }
+}
+
