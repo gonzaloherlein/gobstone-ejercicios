@@ -8,3 +8,28 @@ procedure PonerUnaDeCada(){
     Poner(Verde)
 }
 
+//Practica 3 - Ejercicio 9
+procedure Poner_DeColor_(cantidadAPoner, colorAPoner){
+    repeat(cantidadAPoner){
+        Poner(colorAPoner)
+    }
+}
+
+//Practica 3 - Ejercicio 10
+procedure Mover_VecesAl_(cantidadAMover, direcciónAMover){
+    repeat(cantidadAMover){
+       Mover(direcciónAMover) 
+    }
+}
+
+//Practica 3 - Ejercicio 11
+procedure Sacar_DeColor_(cantidadASacar, colorASacar){
+    repeat(cantidadASacar){
+       Sacar(colorASacar) 
+    }
+}
+
+//Practica 5 - Ejercicio 6
+procedure SacarTodasLasDeColor_(colorASacar){
+    Sacar_DeColor_(nroBolitas(colorASacar), colorASacar)
+}
