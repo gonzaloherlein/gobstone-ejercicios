@@ -33,3 +33,24 @@ procedure Sacar_DeColor_(cantidadASacar, colorASacar){
 procedure SacarTodasLasDeColor_(colorASacar){
     Sacar_DeColor_(nroBolitas(colorASacar), colorASacar)
 }
+
+//Practica 6 - Ejercicio 4.a
+procedure Poner_Si_(color, condición){
+    if(condición){
+        Poner(color)
+    }
+}
+
+//Practica 6 - Ejercicio 4.b
+procedure Sacar_Si_(color, condición){
+    if(condición){
+        Sacar(color)
+    }
+}
+
+//Practica 6 - Ejercicio 4.c
+procedure Mover_Si_(dirección, condición){
+    if(condición){
+        Mover(dirección)
+    }
+}
