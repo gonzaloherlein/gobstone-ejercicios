@@ -1,0 +1,29 @@
+program{
+    return(coordenadaY())
+}
+
+
+// biblioteca 
+function coordenadaX() {
+  x := 0
+  while (puedeMover(Oeste)) {
+    Mover(Oeste)
+    x := x + 1  
+  }
+  repeat (x) {
+    Mover(Este)
+  }
+  return (x)
+}
+
+function coordenadaY() {
+  y := 0
+  while (puedeMover(Sur)) {
+    y := y + 1
+    Mover(Sur)
+  }
+  repeat (y) {
+    Mover(Norte)
+  }
+  return (y)
+}
