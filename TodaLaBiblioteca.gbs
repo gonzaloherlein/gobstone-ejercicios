@@ -86,3 +86,23 @@ function esCeldaConBolitas(){
     return (hayBolitas(Rojo) || hayBolitas(Negro) || hayBolitas(Verde) || hayBolitas(Azul))
 }
 
+//Practica 8 - Ejercicio 6.a
+procedure IrAPrimeraCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    IrAlBorde(opuesto(dirPrincipal))
+    IrAlBorde(opuesto(dirSecundaria))
+}
+
+//Practica 8 - Ejercicio 6.b
+function haySiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    return(puedeMover(dirPrincipal) || puedeMover(dirSecundaria))
+}
+
+//Practica 8 - Ejercicio 6.c
+procedure IrASiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    if(puedeMover(dirPrincipal)){
+        Mover(dirPrincipal)
+    }else{
+        IrAlBorde(opuesto(dirPrincipal))
+        Mover(dirSecundaria)
+    }
+}
