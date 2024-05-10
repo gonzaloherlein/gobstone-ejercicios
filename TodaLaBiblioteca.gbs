@@ -54,3 +54,35 @@ procedure Mover_Si_(dirección, condición){
         Mover(dirección)
     }
 }
+
+//Practica 7 - Ejercicio 2.a
+function esCeldaVacia(){
+    /*
+        Proposito: Verificar si la celda actual esta vacia
+        Precondincion: Ninguna
+        Tipo: Booleano
+    */
+    return ( not hayBolitas(Rojo) && not hayBolitas(Negro) 
+            && not hayBolitas(Verde) && not hayBolitas(Azul))
+}
+
+//Practica 7 - Ejercicio 2.b
+function tieneUnaDeCada(){
+    /*
+        Proposito: Verificar si en la celda actual hay al menos una bolita de cada color
+        Precondicion: Ninguna
+        Tipo: Booleano
+    */
+    return (hayBolitas(Rojo) && hayBolitas(Negro) && hayBolitas(Verde) && hayBolitas(Azul))
+}
+
+//Practica 7 - Ejercicio 2.c
+function esCeldaConBolitas(){
+    /*
+        Proposito: Verificar si en la celda actual hay almenos una bolita, sin importar el color
+        Precondicion: Ninguno
+        Tipo: Booleano
+    */
+    return (hayBolitas(Rojo) || hayBolitas(Negro) || hayBolitas(Verde) || hayBolitas(Azul))
+}
+
