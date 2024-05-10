@@ -1,4 +1,7 @@
 //Biblioteca
+program{
+    return(hayBolitas_Al_(Negro,Este))
+}
 
 //Practica 2 - Ejercicio 3.a
 procedure PonerUnaDeCada(){
@@ -105,4 +108,30 @@ procedure IrASiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
         IrAlBorde(opuesto(dirPrincipal))
         Mover(dirSecundaria)
     }
+}
+
+//Practica 9 - Ejercicio 2
+function hayBolitas_Al_(color,direccion){
+    hayBolita := False
+    if(puedeMover(direccion)){
+        Mover(direccion)
+        hayBolita := hayBolitas(color)
+    }
+    return(hayBolita)
+}
+
+//Practica 9 - Ejercicio 11
+procedure mínimoEntre_Y_(primerNumero, segundoNumero){
+    return(
+        choose  primerNumero when (primerNumero < segundoNumero)
+                segundoNumero otherwise
+        )
+}
+
+//Practica 9 - Ejercicio 12
+procedure máximoEntre_Y_(primerNumero, segundoNumero){
+   return(
+        choose  primerNumero when (primerNumero > segundoNumero)
+                segundoNumero otherwise
+        ) 
 }
