@@ -1,0 +1,156 @@
+program{
+     return(cantidadDePuntosEnNivelHacia_Y_(Oeste,Sur)) // 7800  ---- 1300 Coco + 8000 Cereza + 500
+    //JugarNivel(Oeste,Norte)
+}
+
+
+
+function cantidadDePuntosEnNivelHacia_Y_(direcciónPrincipal,direcciónSecundaria){
+    totalDePuntos := 0
+    LlevarAGobsmanAlInicioDeUnRecorridoHacia_Y_(direcciónPrincipal,direcciónSecundaria)
+     while(not hayBolitas(Verde) && haySiguienteCeldaEnUnRecorridoHacia_Y_(direcciónPrincipal,direcciónSecundaria)){
+        totalDePuntos := totalDePuntos + puntajeAObtenerEnCeldaActual()
+        MoverAGobsmanEnUnRecorridoHacia_Y_(direcciónPrincipal,direcciónSecundaria)
+    }
+    return(totalDePuntos + puntajeAObtenerEnCeldaActual())
+}
+
+
+function hayAlgúnFantasmaEnElNivel(){
+    LlevarAGobsmanAlInicioDeUnRecorridoHacia_Y_(Este,Norte)
+    while(not hayBolitas(Verde) && haySiguienteCeldaEnUnRecorridoHacia_Y_(Este,Norte)){
+        MoverAGobsmanEnUnRecorridoHacia_Y_(Este,Norte)
+    }
+    
+    return(hayBolitas(Verde))
+}
+
+
+function cantidadDePuntosEnElNivel(){
+    totalDePuntos := 0
+    LlevarAGobsmanAlInicioDeUnRecorridoHacia_Y_(Este,Norte)
+    while(haySiguienteCeldaEnUnRecorridoHacia_Y_(Este,Norte)){
+        totalDePuntos := totalDePuntos + puntajeAObtenerEnCeldaActual()
+        MoverAGobsmanEnUnRecorridoHacia_Y_(Este,Norte)
+    }
+    return(totalDePuntos + puntajeAObtenerEnCeldaActual())
+}
+
+procedure ComerLoQueHayEnLaCeldaYMostrarPuntos(){
+    puntaje := puntajeAObtenerEnCeldaActual()
+    
+    while(not esCeldaVacia()){
+        ComerCereza()
+        ComerCoco()
+        ComerFrutilla()
+    }
+    
+    repeat(puntaje){
+        Poner(Verde)
+    }
+}
+
+function esCeldaVacia(){
+    return (not hayBolitas(Azul) &&
+            not hayBolitas(Negro) &&
+            not hayBolitas(Rojo) &&
+            not hayBolitas(Verde))
+}
+
+/*
+    Coco ---- 100 pts
+    Cereza ---- 2000 pts
+    Frutillas --- 500 pts
+    
+*/
+
+function puntajeAObtenerEnCeldaActual(){
+    puntajeAObtener := 0
+    puntosCocos := 100
+    puntosFrutillas := 500
+    puntosCereza := 2000
+    if(hayBolitas(Rojo) && hayBolitas(Negro) && hayBolitas(Azul)){
+        puntajeAObtener := puntosCocos + puntosCereza + puntosFrutillas
+    }elseif(hayBolitas(Negro)){
+        puntajeAObtener := puntajeAObtener + puntosCocos
+    }elseif(hayBolitas(Azul)){
+        puntajeAObtener := puntajeAObtener + puntosFrutillas
+    }elseif (hayBolitas(Rojo)){
+        puntajeAObtener := puntajeAObtener + puntosCereza
+    }else{
+        puntajeAObtener := 0
+    }
+    return(puntajeAObtener)
+}
+
+procedure ComerFrutilla(){
+    Sacar(Azul)
+}
+
+procedure ComerCereza(){
+    Sacar(Rojo)
+}
+
+procedure ComerCoco(){
+    Sacar(Negro)
+}
+
+function hayCereza(){
+    return(hayBolitas(Rojo))
+}
+
+procedure ComerTodoLoQueSeEncuentreEnElNivel(){
+    if(hayCereza()){
+        ComerCereza()
+    }else{
+        ComerCoco()
+    }
+}
+
+procedure MuerteGobsman(){
+    if(hayBolitas(Verde)){
+        Poner(Azul)
+    }
+}
+
+procedure JugarNivel(dirPrincipal,dirSecundaria){
+     LlevarAGobsmanAlInicioDeUnRecorridoHacia_Y_(dirPrincipal,dirSecundaria)
+     while(not hayBolitas(Verde) && haySiguienteCeldaEnUnRecorridoHacia_Y_(dirPrincipal,dirSecundaria)){
+        ComerTodoLoQueSeEncuentreEnElNivel()
+        MoverAGobsmanEnUnRecorridoHacia_Y_(dirPrincipal,dirSecundaria)
+    }
+    MuerteGobsman()
+    ComerTodoLoQueSeEncuentreEnElNivel()
+}
+
+
+
+function haySiguienteCeldaEnUnRecorridoHacia_Y_(dirPrincipal,dirSecundaria){
+    return (puedeMover(dirPrincipal) || puedeMover(dirSecundaria))
+}
+
+
+procedure MoverAGobsmanEnUnRecorridoHacia_Y_(dirPrincipal,dirSecundaria){
+    if(puedeMover(dirPrincipal)){
+        //Sacar(Azul)
+        Mover(dirPrincipal)
+       // Poner(Azul)
+    }else{
+       // Sacar(Azul)
+        LlevarAGobsmanAlBorde_(opuesto(dirPrincipal))
+        Mover(dirSecundaria)
+       // Poner(Azul)
+    }
+}
+
+
+procedure LlevarAGobsmanAlInicioDeUnRecorridoHacia_Y_(dirPrincipal,dirSecundaria){
+    LlevarAGobsmanAlBorde_(opuesto(dirPrincipal))
+    LlevarAGobsmanAlBorde_(opuesto(dirSecundaria))
+    //Poner(Azul)
+}
+
+
+procedure  LlevarAGobsmanAlBorde_(direccion){
+    IrAlBorde(direccion)
+}
