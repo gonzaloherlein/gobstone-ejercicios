@@ -1,0 +1,51 @@
+program{
+    return(nroFilas())
+}
+
+
+// biblioteca 
+function coordenadaX() {
+  x := 0
+  while (puedeMover(Oeste)) {
+    Mover(Oeste)
+    x := x + 1  
+  }
+  repeat (x) {
+    Mover(Este)
+  }
+  return (x)
+}
+
+function coordenadaY() {
+  y := 0
+  while (puedeMover(Sur)) {
+    y := y + 1
+    Mover(Sur)
+  }
+  repeat (y) {
+    Mover(Norte)
+  }
+  return (y)
+}
+
+function nroColumnas(){
+    columnas := 1
+    IrAlBorde(Oeste)
+    while(puedeMover(Este)){
+        Mover(Este)
+        columnas := columnas + 1
+    }
+    
+    return(columnas)
+}
+
+function nroFilas(){
+   filas := 1
+    IrAlBorde(Sur)
+    while(puedeMover(Norte)){
+        Mover(Norte)
+        filas := filas + 1
+    }
+    
+    return(filas) 
+}
