@@ -1,0 +1,49 @@
+program{
+    return(cantidadDeDineroDePerdedores(Este, Norte))
+}
+
+function cantidadDeDineroDePerdedorEnCeldaActual(numeroCroupier){
+    cantidadDeDineroPerdedor := 0
+    if(nroBolitas(Rojo) == numeroCroupier && hayBolitas(Azul)){
+        cantidadDeDineroPerdedor := cantidadDeDineroPerdedor + nroBolitas(Verde)
+    }
+    return(cantidadDeDineroPerdedor)
+}
+
+
+function cantidadDeDineroDePerdedores(dirPrincipal, dirSecundario){
+    LlevarHastaElInicio(dirPrincipal, dirSecundario)
+    numeroCroupier := nroBolitas(Rojo)
+    cantidadDeDinero := cantidadDeDineroDePerdedorEnCeldaActual(numeroCroupier)
+    while(haySiguienteCelda(dirPrincipal, dirSecundario)){
+        IrALaSiguienteCelda(dirPrincipal, dirSecundario)
+        cantidadDeDinero := cantidadDeDineroDePerdedorEnCeldaActual(numeroCroupier) + cantidadDeDinero 
+    }
+    return(cantidadDeDinero)
+}
+
+
+procedure Recorrido(dirPrincipal, dirSecundario){
+    LlevarHastaElInicio(dirPrincipal, dirSecundario)
+    while(haySiguienteCelda(dirPrincipal, dirSecundario)){
+        IrALaSiguienteCelda(dirPrincipal, dirSecundario)
+    }
+}
+
+function haySiguienteCelda(dirPrincipal, dirSecundario){
+    return(puedeMover(dirPrincipal) || puedeMover(dirSecundario))
+}
+
+procedure IrALaSiguienteCelda(dirPrincipal, dirSecundario){
+    if(puedeMover(dirPrincipal)){
+        Mover(dirPrincipal)
+    }else{
+        IrAlBorde(opuesto(dirPrincipal))
+        Mover(dirSecundario)
+    }
+}
+
+procedure LlevarHastaElInicio(dirPrincipal, dirSecundario){
+    IrAlBorde(opuesto(dirPrincipal))
+    IrAlBorde(opuesto(dirSecundario))
+}

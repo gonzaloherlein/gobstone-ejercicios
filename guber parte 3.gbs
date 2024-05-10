@@ -1,0 +1,190 @@
+choose  jugada1     when    (jugada1 == Piedra  &&  jugada2 == Tijera)
+        jugada1     when    (jugada1 == Tijera  &&  jugada2 == Papel)
+        jugada2     otherwise   // jugada1 == Papel  &&  jugada2 == Piedra
+        
+        
+        
+function hayCeldaVacialAl_(direccion){
+    /*
+    Prop.:
+    prec.: Ninguna
+    */
+    return (puedeMover(direccion) && hayCeldaVaciaHacia_(direccion))
+}
+
+function hayCeldaVaciaHacia_(direccion){
+    /*
+    Prec.: debe haber al menos una celda lindante en direccion *direccion*
+    */
+    Mover(direccion)
+    while (not esCeldaVacia() && puedeMover(direccion)){
+        Mover(direccion)
+    }
+    return (esCeldaVacia())
+}
+
+
+cantVaciasVistas:= 0
+while (haySiguienteCeldaEnUnRecirridoAl_Y_(Este,Norte) && cantVaciasVistas /= cantadadBuscada){
+    cantVaciasVistas:= cantVaciasVistas + unoSi_CeroSino(esCeldaVacia())
+    IrALaSiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+}
+
+
+tipo de recorrido           que voy a recorrer          como lo voy a recorrer
+
+busqueda                    fila                        x celdas
+    -si lo que busco seguro esta
+    -si no estoy seguro de encontrar lo buscado
+
+acumulacion                 columna                     x celdas
+    
+procesamiento               tablero                     x celdas x filas x columnas
+
+maximo/minimo               enumerativo                 x colores x direccion x numero
+
+// ejercicio 8 guber parte 3
+procedure MoverElVehículoAlBorde_(direccionDelBorde){
+    /*
+    Prop.: Mueve el vehículo hasta el borde en la dirección *direccion* (con el pasajero si hubiera uno)
+    Prec.: el cabezal esta sobre el vehiculo
+    Parametros: *direccionDelBorde* - Direccion - direccion del borde hacia donde se mueve el vehiculo
+    */
+    while (puedeMover(direccionDelBorde)){
+        MoverVehículoAl_(direcciónDelBorde)
+    }
+}
+
+//ejrcicio 9 
+procedure IrARecogerSolicitanteConId_(IdSolicitante){
+    /*
+    Prop.: Recoge al solicitante con el Id *IdSolicitante*
+    Prec.: El solicitante con el Id dado se encuentra en el mapa
+           El vehiculo se encuentra vacia
+           el cabezal se encuentra sobre el vehiculo
+    Parametros: *IdSolicitante* - Numero -  numero de id del solicitante
+    Obs.: recorrido de busqueda sobre el mapa ubicacion x ubicacion
+    */
+    LlevarVehículoAlInicioDeRecorridoAl_YAl_(Este,Norte)
+    while(not haySolicitanteConId_(IdSolicitante)){
+        MoverVehículoASiguienteUbicacionDeRecorridoAl_YAl_(Este,Norte)
+    }
+    RecogerSolicitanteConId_(IdSolicitante)
+}
+
+procedure LlevarVehículoAlInicioDeRecorridoAl_YAl_(direccionPrincipal,direccionSecundaria){
+    /*
+    PROPÓSITO: Mueve el vehículo a la primer ubicación del mapa en un recorrido hacia **direcciónPrincipal** y **direcciónSecundaria**
+    PARÁMETROS:
+        * direcciónPrincipal: Dirección - La primera de las direcciones del recorrido.
+        * direcciónSecundaria: Dirección - La segunda de las direcciones del recorrido.
+    PRECONDICIONES:
+        * El cabezal se encuentra sobre el vehículo.
+        * Las direcciones dadas no son opuestas ni iguales.
+    */
+    
+    MoverElVehículoAlBorde_(opuesto(direccionPrincipal))
+    MoverElVehículoAlBorde_(opuesto(direccionSecundaria))
+}
+
+
+procedure MoverVehículoASiguienteUbicacionDeRecorridoAl_YAl_(direccionPrincipal,direccionSecundaria){
+    /*
+    PROPÓSITO: Mueve el vehículo a la siguiente ubicación del mapa en un recorrido hacia **direcciónPrincipal** y **direcciónSecundaria**
+    PARÁMETROS:
+        * direcciónPrincipal: Dirección - La primera de las direcciones del recorrido.
+        * direcciónSecundaria: Dirección - La segunda de las direcciones del recorrido.
+    PRECONDICIONES:
+        * El cabezal se encuentra sobre el vehículo.
+        * Las direcciones dadas no son opuestas ni iguales.
+        * Hay una siguiente ubicación en el recorrido hacia las direcciones dadas.
+    */
+    if(puedeMover(direccionPrincipal){
+        MoverVehículoAl_(direccionPrincipal)
+    }else{
+        MoverElVehículoAlBorde_(opuesto(direccionPrincipal))
+        MoverVehículoAl_(direccionSecundaria)
+    }
+    
+}
+
+function haySolicitanteConId_(IdSolicitante){
+    /*
+    Prop.: Indica si hay un solicitante con Id *IdSolicitante* en la ubicacion actual
+    Prec.: Ninguna
+    Parametros: *IdSolicitante* - Numero - numero de id del solicitante
+    Tipo: Booleano
+    */
+    
+    return (haySolicitanteEnUbicación() && idDeSolicitanteEnUbicación() == IdSolicitante)
+}
+
+//ejercicio 10
+function cantidadDeSolicitantesEsperando(){
+    /*
+    Proposito: Describe la cantidad de solicitantes en espera
+    Prtecondiciones: Ninguna
+    Tipo: Numero
+    Obs.: recorrido de acumulacion sobre las ubicaciones del mapa, contando los solicitantes
+    */
+    
+    cantidadSolicitantesVistos := 0
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        cantidadSolicitantesVistos := cantidadSolicitantesVistos + UnoSi_CeroSino(haySolicitanteEnUbicación())
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    return(cantidadSolicitantesVistos + UnoSi_CeroSino(haySolicitanteEnUbicación()) //bien
+}
+
+//ejercicio 10 opcion b
+function cantidadDeSolicitantesEsperando(){
+    /*
+    Proposito: Describe la cantidad de solicitantes en espera
+    Prtecondiciones: Ninguna
+    Tipo: Numero
+    Obs.: recorrido de acumulacion sobre las ubicaciones del mapa, contando los solicitantes
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadSolicitantesVistos := UnoSi_CeroSino(haySolicitanteEnUbicación()
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadSolicitantesVistos := cantidadSolicitantesVistos + UnoSi_CeroSino(haySolicitanteEnUbicación())
+    }
+    return(cantidadSolicitantesVistos) //bien
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
