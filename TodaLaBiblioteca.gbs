@@ -1,0 +1,10 @@
+//Biblioteca
+
+//Practica 2 - Ejercicio 3.a
+procedure PonerUnaDeCada(){
+    Poner(Azul)
+    Poner(Negro)
+    Poner(Rojo)
+    Poner(Verde)
+}
+
