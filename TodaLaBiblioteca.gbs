@@ -1,6 +1,6 @@
 //Biblioteca
 program{
-    return(hayBolitas_Al_(Negro,Este))
+    return(nroBolitasTotalDeColor_(Negro))
 }
 
 //Practica 2 - Ejercicio 3.a
@@ -121,17 +121,125 @@ function hayBolitas_Al_(color,direccion){
 }
 
 //Practica 9 - Ejercicio 11
-procedure mínimoEntre_Y_(primerNumero, segundoNumero){
+function mínimoEntre_Y_(primerValor, segundoValor){
     return(
-        choose  primerNumero when (primerNumero < segundoNumero)
-                segundoNumero otherwise
+        choose  primerValor when (primerValor < segundoValor)
+                segundoValor otherwise
         )
 }
 
 //Practica 9 - Ejercicio 12
-procedure máximoEntre_Y_(primerNumero, segundoNumero){
+function máximoEntre_Y_(primerValor, segundoValor){
    return(
-        choose  primerNumero when (primerNumero > segundoNumero)
-                segundoNumero otherwise
+        choose  primerValor when (primerValor > segundoValor)
+                segundoValor otherwise
         ) 
 }
+
+//Practica 9 - Ejercicio 17
+function distanciaAlBorde_(direccion){
+    distancia := 0
+    while(puedeMover(direccion)){
+        Mover(direccion)
+        distancia := distancia + 1
+    }
+    return(distancia)
+}
+
+//Practica 9 - Ejercicio 18
+function coordenadaX() {
+    x := 0
+    while (puedeMover(Oeste)) {
+        Mover(Oeste)
+        x := x + 1  
+    }
+    repeat (x) {
+        Mover(Este)
+    }
+    return (x)
+}
+
+function coordenadaY() {
+    y := 0
+    while (puedeMover(Sur)) {
+        y := y + 1
+        Mover(Sur)
+    }
+    repeat (y) {
+        Mover(Norte)
+    }
+    return (y)
+}
+
+//Practica 9 - Ejercicio 19
+function nroColumnas(){
+    columnas := 1
+    IrAlBorde(Oeste)
+    while(puedeMover(Este)){
+        Mover(Este)
+        columnas := columnas + 1
+    }
+    
+    return(columnas)
+}
+
+function nroFilas(){
+   filas := 1
+    IrAlBorde(Sur)
+    while(puedeMover(Norte)){
+        Mover(Norte)
+        filas := filas + 1
+    }
+    
+    return(filas) 
+}
+
+//Practica 9 - Ejercicio 20
+function nroVacias(){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    celdasVacias := unoSiEsVacia_ceroSiNo()
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+        celdasVacias := celdasVacias + unoSiEsVacia_ceroSiNo()
+    }
+    return(celdasVacias)
+}
+
+//Practica 9 - Ejercicio 25
+function unoSiEsVacia_ceroSiNo(){
+    return(
+        choose 1 when (esCeldaVacia())
+               0 otherwise
+        )
+}
+
+//Practica 9 - Ejercicio 21
+function cantidadDeCeldasConBolitasDeColor_(color){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    celdasConBolitasDeColor := unoSiHayDeColor_YceroSiNo(color)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+        celdasConBolitasDeColor := celdasConBolitasDeColor + unoSiHayDeColor_YceroSiNo(color)
+    }
+    return(celdasConBolitasDeColor)
+}
+
+//Practica 9 - Ejercicio 25
+function unoSiHayDeColor_YceroSiNo(color){
+    return(
+        choose 1 when (hayBolitas(color))
+               0 otherwise
+        )
+}
+
+//Practica 9 - Ejercicio 22
+function nroBolitasTotalDeColor_(color){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    nroTotalDeBolitasDeColor := nroBolitas(color)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+        nroTotalDeBolitasDeColor := nroTotalDeBolitasDeColor + nroBolitas(color)
+    }
+    return(nroTotalDeBolitasDeColor)
+}
+
