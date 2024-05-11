@@ -1,0 +1,103 @@
+program{
+    PropagarSeñales()
+    return(cantidadDeClientesEstafadosQueHabrá())
+}
+
+function cantidadDeClientesEstafadosQueHabrá(){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    clientesEstafados := unoSiEsEstafado_CeroSiNo()
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+        clientesEstafados := clientesEstafados + unoSiEsEstafado_CeroSiNo()
+    }
+    return(clientesEstafados)
+}
+
+function unoSiEsEstafado_CeroSiNo(){
+    return(
+        choose 1 when (nroBolitas(Rojo) < nroBolitas(Verde))
+               0 otherwise
+        )
+}
+
+
+procedure PropagarSeñales(){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        if(hayBolitas(Azul)){
+            PropagarSeñalDeTorre()
+        }
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+}
+
+procedure PropagarSeñalDeTorre(){
+    direccion := minDir()
+    while(hayBolitas(Azul) && direccion /= maxDir()){
+        PropagarSeñalEnDireccion_(direccion)
+        direccion := siguiente(direccion)
+    }
+    PropagarSeñalEnDireccion_(direccion)
+}
+
+procedure PropagarSeñalEnDireccion_(direccion){
+    cantidad := nroBolitas(Negro)
+    while(puedeMover(direccion) && not hayBolitas_Al_(Azul,direccion)){
+        Mover(direccion)
+        Poner_DeColor_(cantidad, Rojo)
+        cantidad := cantidad - 1
+    }
+    Volver_CeldasEnDireccion_(distanciaAlBorde_(direccion), direccion)
+}
+
+procedure Volver_CeldasEnDireccion_(cantidad,direccion){
+    
+    while(not hayBolitas(Negro)){
+        Mover(opuesto(direccion))
+    }
+}
+
+procedure Poner_DeColor_(cantidadAPoner, colorAPoner){
+    repeat(cantidadAPoner){
+        Poner(colorAPoner)
+    }
+}
+
+function hayBolitas_Al_(color,direccion){
+    hayBolita := False
+    if(puedeMover(direccion)){
+        Mover(direccion)
+        hayBolita := hayBolitas(color)
+    }
+    return(hayBolita)
+}
+
+//Practica 9 - Ejercicio 17
+function distanciaAlBorde_(direccion){
+    distancia := 0
+    while(puedeMover(direccion)){
+        Mover(direccion)
+        distancia := distancia + 1
+    }
+    return(distancia)
+}
+
+procedure IrAPrimeraCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    IrAlBorde(opuesto(dirPrincipal))
+    IrAlBorde(opuesto(dirSecundaria))
+}
+
+//Practica 8 - Ejercicio 6.b
+function haySiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    return(puedeMover(dirPrincipal) || puedeMover(dirSecundaria))
+}
+
+//Practica 8 - Ejercicio 6.c
+procedure IrASiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    if(puedeMover(dirPrincipal)){
+        Mover(dirPrincipal)
+    }else{
+        IrAlBorde(opuesto(dirPrincipal))
+        Mover(dirSecundaria)
+    }
+}
