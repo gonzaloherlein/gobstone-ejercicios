@@ -1,0 +1,169 @@
+/*
+Ejercicio 1) 
+Escriba el procedimiento PropagarSeñalDePotencia_Al_ que, asumiendo que el 
+cabezal está sobre una torre y, dada una potencia y una dirección, propague 
+la señal de dicha torre en la dirección dada. El cabezal debe quedar sobre la torre.
+
+*/
+
+procedure PropagarSeñalDePotencia_Al_(potenciaTorre, dirección){
+    /*
+    Proposito: Propaga la señal de la torre en el sector actual con potencia *potenciaTorre* hacia el *direccion*
+    Prec.: Debe haber una torre en el sector actual.
+           La potencia de la torre actual aun no fue propagada.
+    Parametros:
+            *potenciaTorre: Número - La potencia a propagar de la señal
+            *dirección: Dirección - La dirección a propagar la señal
+    */
+    potenciaActual:= potenciaTorre //potenciaTorreAca()
+    while(potenciActual /= 0 && puedeMoverYNoHayTorreAl_(direccion)){
+        Mover(direccion)
+        PropagarSeñalAca_(potenciaActual)
+        potenciaActual := potenciaActual - 1
+    }
+    Mover_VecesAl_(potenciaTorre - potenciaActual, opuesto(direccion))
+}
+
+function puedeMoverYNoHayTorreAl_(direccion){
+    /*
+    Prop.: Indica si se puede mover al **dirección** y que ese sector, no hay torre
+    Prec.: Ninguna
+    Parametros: *direccion* - Direccion - direccion a mirar
+    Tipo: Booleano
+    */
+    
+    return (puedeMover(direccion) && not hayTorreAl_(direccion))
+}
+
+function hayTorreAl_(direccion){
+    /*
+    PROPÓSITO: Indica si hay una torre en el sector lindante al **dirección**
+    PARÁMETROS:
+        *dirección: Dirección - La dirección a mirar si hay torre
+    PRECONDICIONES:
+        *Debe haber al menos un sector hacia el **dirección**
+    TIPO:
+        *Booleano
+    */
+    Mover(direccion)
+    return(hayTorreAcá())
+}
+
+procedure PropagarSeñalAca_(potencia){
+    /*
+    Proposito: Propaga en el sector actual la señal de potencia *potencia*
+    Prec.: No hay una torre en el sector actual
+    Parametros: *potencia* - Numero - cantidad de potencia a propagar
+    */
+    Poner_DeColor_(potencia, colorDeSeñal())
+}
+
+/*
+Ejercicio 2) 
+Escriba el procedimiento PropagarSeñales que propague las señales de todas 
+las torres de la región, asumiendo que el programa se encuentra en el estado 
+previo a propagar las señales.
+*/
+
+procedure PropagarSeñales(){
+    /*
+    Prop.: Propaga todas las señales de la región
+    Prec.: *Aún no se propagaron las señales
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        PropagarSeñalesSiHayTorre()
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    PropagarSeñalesSiHayTorre()
+}
+
+procedure PropagarSeñalesSiHayTorre(){
+    /*
+    PROPÓSITO: Propaga las señeles de la torre en el sector actual si hay una
+    PRECONDICIONES:
+        *Ninguna
+    */
+    if(hayTorreAcá()){
+        PropagarLaSeñalDeTorre()
+    }
+}
+
+procedure PropagarLaSeñalDeTorre(){
+    /*
+    PROPÓSITO: Propaga las señeles de la torre en el sector actual.
+    PRECONDICIONES:
+        *Debe haber una torre en el sector actual
+    */
+    dirActual:= minDir()
+    while(dirActual /= maxDir()){
+        PropagarSeñalDePotencia_Al_(potenciaDeTorreAcá(), dirActual)
+        dirActual := siguiente(dirActual)
+    }
+    PropagarSeñalDePotencia_Al_(potenciaDeTorreAcá(), dirActual)
+}
+
+/*
+Ejercicio 3)
+Escriba la función cantidadDeClientesEstafadosQueHabrá que describa la cantidad de clientes estafados
+que habrá luego de que se propaguen las señales. Un cliente es estafado cuando le llega algo de señal, pero
+la misma es menor a la contratada. Se debe asumir que aún las torres no propagaron las señales.
+
+*/
+
+function cantidadDeClientesEstafadosQueHabrá(){
+    /*
+        Prop.: Describe la cantidad de clientes del sector que van a ser estafados
+        Prec.: Aún no se propagaron las señales
+        Tipo: Numero
+    */
+    PropagarSeñales()
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadEstafados := unoSi_ceroSino(esClieteEstafado())
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadEstafados := cantidadEstafados +unoSi_ceroSino(esClieteEstafado())
+    }
+    return (cantidadEstafados)
+}
+
+function esClieteEstafado(){
+    /*
+    PROPÓSITO: Indica si hay un cliente estafado en el sector actual
+    PRECONDICIONES:
+        *Ninguna
+    TIPO: Booleano
+    */
+    return(hayClienteAca() && esEstafado())
+}
+
+function esEstafado(){
+    /*
+    PROPÓSITO: Indica si el cliente del sector actual es estafado
+    PRECONDICIONES:
+        *Debe haber un cliente en el sector actual
+    TIPO: Booleano
+    */
+    return(potenciaObtenida() < potenciaContratada())  //(haySeñalAcá() < potenciaContratada())
+}
+
+function potenciaContratada(){
+     /*
+    PROPÓSITO: Describe la potencia de la señal contratada del cliente del sector actual
+    PRECONDICIONES:
+        *Debe haber un cliente en el sector actual
+    TIPO: Número
+    */
+    return(nroBolitas(colorDeCliente()))
+}
+
+function potenciaObtenida(){
+     /*
+    PROPÓSITO: Describe la potencia de la señal obtenida del cliente del sector actual
+    PRECONDICIONES:
+        *Debe haber un cliente en el sector actual
+    TIPO: Número
+    */
+    return(nroBolitas(colorDeSeñal()))
+}
+

@@ -1,0 +1,109 @@
+program{
+    return(cantidadDeClientesSinEntregas())
+}
+
+
+function cantidadDeClientesSinEntregas(){
+    EntregarTodosLosPedidos()
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadDeClientesSinEntregas := unoSi_CeroSiNo(esClienteSinEntrega())
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadDeClientesSinEntregas := cantidadDeClientesSinEntregas + unoSi_CeroSiNo(esClienteSinEntrega())
+    }
+    return(cantidadDeClientesSinEntregas)
+}
+
+
+function unoSi_CeroSiNo(condicion){
+    return(
+        choose 1 when (condicion)
+               0 otherwise)
+}
+
+function esClienteSinEntrega(){
+    return(hayBolitas(Azul) && not hayBolitas(Negro))
+}
+
+
+procedure EntregarTodosLosPedidos(){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+        EntregarPedidoSiHay()
+    }
+}
+
+procedure EntregarPedidoSiHay(){
+    if(hayBolitas(Rojo) && not hayBolitas(Azul)){
+        EntregarPedido()
+    }
+}
+
+procedure EntregarPedido(){
+    numeroDeRepartidor := nroBolitas(Rojo)
+    LlevarAlRepartidorHastaElPedido(numeroDeRepartidor)
+    numeroDePedido := nroBolitas(Negro)
+    LlevarElPedidoHastaElClienteConNumero_(numeroDePedido, numeroDeRepartidor)
+}
+
+
+procedure IrAPrimeraCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    IrAlBorde(opuesto(dirPrincipal))
+    IrAlBorde(opuesto(dirSecundaria))
+}
+
+function haySiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    return(puedeMover(dirPrincipal) || puedeMover(dirSecundaria))
+}
+
+//Practica 8 - Ejercicio 6.c
+procedure IrASiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    if(puedeMover(dirPrincipal)){
+        Mover(dirPrincipal)
+    }else{
+        IrAlBorde(opuesto(dirPrincipal))
+        Mover(dirSecundaria)
+    }
+}
+
+procedure EncontrarRepartidorConId_(numeroDeRepartidor){
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(nroBolitas(Rojo) /= numeroDeRepartidor && haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    }
+}
+
+procedure LlevarAlRepartidorHastaElPedido(numeroDeRepartidor){
+   Sacar_DeColor_(numeroDeRepartidor,Rojo)
+   IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(nroBolitas(Verde) /= numeroDeRepartidor && haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    } 
+    Poner_DeColor_(numeroDeRepartidor,Rojo)
+}
+
+procedure LlevarElPedidoHastaElClienteConNumero_(numeroDePedido, numeroDeRepartidor){
+    Sacar_DeColor_(numeroDeRepartidor,Rojo)
+    Sacar_DeColor_(numeroDePedido,Negro)
+    Sacar_DeColor_(nroBolitas(Verde),Verde)
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(nroBolitas(Azul) /= numeroDePedido && haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este,Norte)
+    }
+    Poner_DeColor_(numeroDeRepartidor,Rojo)
+    Poner_DeColor_(numeroDePedido,Negro)
+}
+
+
+procedure Sacar_DeColor_(cantidadASacar, colorASacar){
+    repeat(cantidadASacar){
+       Sacar(colorASacar) 
+    }
+}
+
+procedure Poner_DeColor_(cantidadAPoner, colorAPoner){
+    repeat(cantidadAPoner){
+        Poner(colorAPoner)
+    }
+}
