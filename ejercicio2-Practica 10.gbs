@@ -1,0 +1,78 @@
+
+type PartidoPolitico is record{
+    field nombre
+    field votos
+}
+
+function cantidadDeVotosDe_(unPartido){
+    return(votos(unPartido))
+}
+
+function nuevoPartidoPolitico(nombre,votos){
+    return(
+        PartidoPolitico(
+            nombre <- nombre,
+            votos <- votos
+            )
+        )
+}
+
+function elQueTieneMasVotos(primerPartido, segundoPartido,tercerPartido, cuartoPartido){
+    return(
+        choose nombre(primerPartido) when (esPartidoConMasVotos(primerPartido,segundoPartido,tercerPartido, cuartoPartido))
+               nombre(segundoPartido) when (esPartidoConMasVotos(segundoPartido,primerPartido,tercerPartido, cuartoPartido))
+               nombre(tercerPartido) when (esPartidoConMasVotos(tercerPartido,primerPartido,segundoPartido, cuartoPartido))
+               nombre(cuartoPartido) otherwise
+        )
+}
+
+
+function esElSegundoPartidoConMasVotos(primerPartido,segundoPartidoAComparar,tercerPartidoAComparar,cuartoPartidoAComparar){
+    return(
+           cantidadDeVotosDe_(primerPartido) < cantidadDeVotosDe_(partidoConMasVotos) &&
+           cantidadDeVotosDe_(primerPartido) > cantidadDeVotosDe_(segundoPartidoAComparar) &&
+           cantidadDeVotosDe_(primerPartido) > cantidadDeVotosDe_(tercerPartidoAComparar)
+        )
+    
+}
+
+function esPartidoConMasVotos(primerPartido,segundoPartidoAComparar,tercerPartidoAComparar,cuartoPartidoAComparar){
+    return(
+           cantidadDeVotosDe_(primerPartido) > cantidadDeVotosDe_(segundoPartidoAComparar) &&
+           cantidadDeVotosDe_(primerPartido) > cantidadDeVotosDe_(tercerPartidoAComparar) &&
+           cantidadDeVotosDe_(primerPartido) > cantidadDeVotosDe_(cuartoPartidoAComparar)
+        )
+}
+
+function habráBalottage(){
+    return(partidoConMasVotosNoAcumulóLoSuficiente(primerPartido, segundoPartido,tercerPartido, cuartoPartido) && noHayDiferenciaSuficiente(primerPartido, segundoPartido,tercerPartido, cuartoPartido))
+}
+
+function noHayDiferenciaSuficiente(primerPartido, segundoPartido,tercerPartido, cuartoPartido){
+    partidoConMasVotos := elQueTieneMasVotos(primerPartido, segundoPartido,tercerPartido, cuartoPartido)
+    
+}
+
+function partidoConMasVotosNoAcumulóLoSuficiente(primerPartido, segundoPartido,tercerPartido, cuartoPartido){
+    partidoConMasVotos := elQueTieneMasVotos(primerPartido, segundoPartido,tercerPartido, cuartoPartido)
+    votosTotales := cantidadDeVotosDe_(primerPartido) + cantidadDeVotosDe_(segundoPartido) + cantidadDeVotosDe_(tercerPartido) + cantidadDeVotosDe_(cuartoPartido)
+    
+    return(cantidadDeVotosDe_(partidoConMasVotos) >= votosTotales div 2)
+}
+
+function tieneMasVotantes_Que_(primerPartido, segundoPartido){
+    return(
+        choose  nombre(primerPartido) when (cantidadDeVotosDe_(primerPartido) > cantidadDeVotosDe_(segundoPartido))
+                nombre(segundoPartido) otherwise
+    )
+}
+
+
+program{
+    democraciaPorLaVerdad := nuevoPartidoPolitico("Democracia por la Verdad",100)
+    unidosPorLaRepublica := nuevoPartidoPolitico("Unidos por la República",50)
+    liberalesPorLaLibertad := nuevoPartidoPolitico("Liberales por la Libertad", 1000)
+    izquierdaDeLosObreros := nuevoPartidoPolitico("Izquierda de los Obreros",3)
+    
+    return(elQueTieneMasVotos(liberalesPorLaLibertad, unidosPorLaRepublica,izquierdaDeLosObreros, democraciaPorLaVerdad))
+}

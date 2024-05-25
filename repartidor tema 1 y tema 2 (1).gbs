@@ -1,0 +1,397 @@
+//Tema 1
+//ejercicio 1
+function cantidadClientesARecibirPaquete(){
+    /*
+    PROPÓSITO: Describe la cantidad de clientes que deben recibir su paquete, estos paquetes deben estar en el mapa.
+    PRECONDICIONES: *Ninguna
+    TIPO: Número
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadPaquetes := unoSi_ceroSino(hayClienteAcaConPaqueteSinEntregarEnMapa())
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadPaquetes := cantidadPaquetes + unoSi_ceroSino(hayClienteAcaConPaqueteSinEntregarEnMapa())
+    }
+    return(cantidadPaquetes)
+}
+
+function hayClienteAcaConPaqueteSinEntregarEnMapa(){
+    /*
+    PROPÓSITO: Indica si hay un cliente en la ubicación actual que tiene su paquete en el mapa sin entregar.
+    PRECONDICIONES: *Ninguna
+    TIPO: Booleano
+    */
+    return(hayClienteAca() && not tienePaqueteEntregado() && estáElPaquete_EnElMapa(idClienteAcá()))
+}
+
+function hayClienteAca(){
+    /*
+    PROPÓSITO: Indica si hay un cliente en la celda actual.
+    PRECONDICIONES: *Ninguna
+    TIPO: Booleano
+    */
+    return(hayBolitas(cliente()))
+}
+
+function tienePaqueteEntregado(){
+    /*
+    PROPÓSITO: Indica si el cliente en la ubicación actual tiene su pedido entregado.
+    PRECONDICIONES: 
+        *Debe haber un cliente en la ubicación
+    TIPO: Booleano
+    */
+    return(hayPaqueteConId_(idClienteAca()))
+}
+
+
+function hayPaqueteConId_(idPaquete){
+    /*
+    PROPÓSITO: Inidica si en la ubicación aactual hay un paquete con id **id**.
+    PARÁMETROS:
+        *id: Número- el id del paquete que se busca
+    PRECONDICIONES: 
+        *Ninguna
+    TIPO: Booleano
+    */
+    return (hayPaqueteAca() && idPaqueteAca() == idPaquete)
+}
+
+function estáElPaquete_EnElMapa(idPaquete){
+    /*
+    PROPÓSITO: Indica si el paquete **idPaquete** se encuentra en el mapa.
+    PARÁMETROS:
+        *idPaquete: Número- el id de paquete a buscar
+    PRECONDICIONES: 
+        *Ninguna
+    TIPO: Booleano
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte) && not hayPaqueteConId_(idPaquete)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    return(hayPaqueteConId_(idPaquete))
+}
+
+function idClienteAcá(){
+    /*
+    PROPÓSITO: describe el id del cliente de la celda actual.
+    PRECONDICIONES: *debe haber un cliente en la celda actual
+    TIPO: Booleano
+    */
+    return(nroBolitas(cliente()))
+}
+
+function hayPaqueteAca(){
+    /*
+    PROPÓSITO: Indica si hay un paquete en la celda actual.
+    PRECONDICIONES: *Ninguna
+    TIPO: Booleano
+    */
+    return(hayBolitas(paquete()))
+}
+
+function idPaqueteAca(){
+    /*
+    PROPÓSITO: describe el id del paquete de la celda actual.
+    PRECONDICIONES: *debe haber un paquete en la celda actual
+    TIPO: Booleano
+    */
+    return(nroBolitas(paquete()))
+}
+
+//ejercicio 2
+function mayorIdClienteSinPaquete(){
+    /*
+    PROPÓSITO: Describe el mayor id de cliente sin recibir paquete que se encuentre en el mapa.
+    PRECONDICIONES: 
+        *Debe existir en el mapa el cliente con mayor id.
+    TIPO: Número
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    mayorId := máximoEntre_Y_(0, idClienteSinPaqueteCeroSino())
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        mayorId := máximoEntre_Y_(mayorId, idClienteSinPaqueteCeroSino())
+    }
+    return (mayorId)
+}
+
+function idClienteSinPaqueteCeroSino(){
+    /*
+    PROPÓSITO: Describe el id de cliente en la celda actual sin recibir paquete cuando hay, cero en otro caso.
+    PRECONDICIONES: 
+        *ninguna.
+    TIPO: Número
+    */
+    return( choose   idClienteAca()     when    (hayClienteAcaConPaqueteSinEntregarEnMapa())
+                            0            otherwise
+          )
+}
+
+//ejercicio 3
+procedure EntregarPaqueteMayor(){
+    /*
+    PROPÓSITO: Entregar el paquete al cliente con mayor id
+    PRECONDICIONES:
+        *El paquete del cliente con mayor id no fue entregado y existe en el mapa.
+        *El cabezal se encuentra sobre el repartidor que debe entregar el paquete con mayor id.
+    */
+    LlevarRepartidorAPaqueteConMayorIdCliente()
+    LlevarPaqueteAlClienteDeMayorId()
+}
+
+procedure LlevarRepartidorAPaqueteConMayorIdCliente(){
+    /*
+    PROPÓSITO: Llevar al repartidor de la ubicación actual al paquete de mayor id.
+    PRECONDICIONES:
+        *El paquete de mayor id no fue entregado y existe en el mapa.
+        *El cabezal se encuentra sobre el repartidor que debe entregar el paquete con mayor id.
+    */
+    idRepartidor := idRepartidorAca()
+    SacarRepartidor()   //Sacar_DeColor_(idRepartidorAcá(),repartidor())
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(not esPaqueteMayorConIdRepatidor(idRepartidor)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    PonerRepartidor_(idrepartidor) //Poner_DeColor_(id,repartidor())
+}
+
+function esPaqueteMayorConIdRepatidor(idCodigo){
+    /*
+    PROPÓSITO: Indica si hay un código con id **idRepartidor** en la celda actual.
+    PRECONDICIONES: 
+        *Debe existir en el mapa un paquete con id **idRepartidor**.
+    TIPO: Booleano
+    */
+    return(hayPaqueteAca() && mayorIdClienteSinPaquete() ==  idCodigo)
+}
+
+
+procedure LlevarPaqueteAlClienteDeMayorId(){
+    /*
+    PROPÓSITO: Lleva el paquete de la ubicación actual al cliente de mayor id.
+    PRECONDIDICIONES:
+        *El cliente de mayor id se encuentra en el mapa y todavía no ha recibido el paquete.
+        *El repartidor que debe entregar el paquete se encuentra en la ubicación actual.
+        *el repartidor que debe entregar el paquete con mayor id se encuentra en la celda actual.
+    */
+    idRepartidor := idRepartidorAcá()
+    idPaquete := idPaqueteAcá()
+    SacarRepartidor()
+    SacarPaquete()
+    SacarCódigo() //Sacar_DeColor_(nroBolitas(codigo()),codigo())
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(not esClienteId_(idPaquete) ){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    EntregarPaquete_DelRepartidor_(idPaquete,idRepartidor)
+}
+
+procedure EntregarPaquete_DelRepartidor_(idPaquete, idRepartidor){
+     /*
+    PROPÓSITO: Entregar el paquete *idPaquete* del repartidor *idRepartidor* en la ubicación actual
+    PARÁMETROS:
+        *idPaquete: Número - el id del paquete a entregar
+        *idRepartidor: Número - el id del repartidor que entrega el paquete
+    PRECONDICIONES:
+        *En la ubicación no debe haber un paquete
+        *En la ubicación no debe haber un repartidor
+    */
+    PonerPaquete_(idPaquete)
+    PonerRepartidor_(idRepartidor)
+}
+
+//TEMA 2
+//ejercicio 1
+function cantidadRepartidoresAEntregarPaquete(){
+    /*
+    PROPÓSITO: Describe la cantidad de repartidores que deben entregar sus paquete, estos paquetes deben estar en el mapa.
+    PRECONDICIONES: 
+        *Ninguna
+    TIPO: Número
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadRepartidores := unoSi_ceroSino(hayRepartidorConPaqueteParaEntregarEnMapa())
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadRepartidores := cantidadRepartidores + unoSi_ceroSino(hayRepartidorConPaqueteParaEntregarEnMapa())
+    }
+    return(cantidadRepartidores)
+}
+
+function hayRepartidorConPaqueteParaEntregarEnMapa(){
+    /*
+    PROPÓSITO: Describe si hay un repartidor en la ubicación actual que tiene paquete en el mapa sin entregar.
+    PRECONDICIONES: 
+        *Ninguna
+    TIPO: Booleano
+    */
+    return(hayRepartidorAcá() && hayPaqueteDel_EnElMapa(idRepartidorAcá()))
+}
+
+function hayPaqueteDel_EnElMapa(idRepartidor){
+    /*
+    PROPÓSITO: Indica si hay al menos un paquete con código **idRepartidor** en el mapa.
+    PARÁMETROS:
+        *idRepartidor: Número- el id del código del paquete a buscar
+    PRECONDICIONES: 
+        *Ninguna
+    TIPO: Booleano
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte) && not hayPaqueteConIdCódigo_(idRepartidor)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    return (hayPaqueteConIdCódigo_(idRepartidor))
+}
+
+function hayPaqueteConIdCódigo_(idCodigo){
+        /*
+    PROPÓSITO: Inidica si en la ubicación aactual hay un paquete con id de código **idCodigo**.
+    PARÁMETROS:
+        *idCodigo: Número- el id del paquete que se busca el código
+    PRECONDICIONES: 
+        *Ninguna
+    TIPO: Booleano
+    */
+    return(hayPaqueteAcá() && hayCódigoAcá() && idCódigoAcá() == idCodigo)
+}
+
+//ejercicio 2
+function mayorCantidadPaquetesSinEntregarDeUnRepartidor(){
+    /*
+    PROPÓSITO: Describe la mayor cantidad de paquete sin entregar que correspondan a un repartidor.
+    PRECONDICIONES: 
+        *Debe haber una única cantidad máxima de paquetes por entregar de un repartidor.
+    TIPO: Número
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadPaquetes := máximoEntre_Y_(0, cantidadPaquetesPorEntregarDelRepartidorCeroSino())
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadPaquetes := máximoEntre_Y_(cantidadPaquetes, cantidadPaquetesPorEntregarDelRepartidorCeroSino())
+    }
+    return(cantidadPaquetes)
+}
+
+function cantidadPaquetesPorEntregarDelRepartidorCeroSino(){
+    /*
+    PROPÓSITO: Describe la cantidad de paquetes por entregar del repartidor de la ubicación actual cuando hay, cero cuando no hay.
+    PRECONDICIONES: 
+        *ninguna.
+    TIPO: Número
+    */
+    return(choose paquetesPorEntregar_(idRepartidorAcá()) when (hayRepartidorAcá())
+                            0                             otherwise
+        )
+}
+
+function paquetesPorEntregar_(idRepartidor){
+    /*
+    PROPÓSITO: Describe la cantidad de paquetes por entregar del repartidor **idRepartidor**
+    PARÁMETROS:
+        *idRepartidor: Número - el id del repartidor a contar los paquetes que faltan entregar
+    PRECONDICIONES: 
+        *ninguna.
+    TIPO: Número
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    cantidadPaquetes := unoSi_ceroSino(hayPaqueteConIdCódigo_(idRepartidor))
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        cantidadPaquetes := cantidadPaquetes + unoSi_ceroSino(hayPaqueteConIdCódigo_(idRepartidor))
+    }
+    return (cantidadPaquetes)
+}
+
+//ejercicio 3
+procedure EntregarPaquete_(idPaquete){
+    /*
+    PROPÓSITO: Entregar el paquete con id **idPaquete** al cliente que lo espera
+    PARÁMETROS:
+        *idPaquete: Número - El id del paquete a ser entregado
+    PRECONDICIONES:
+        *El cabezal se encuentra sobre el repartidor que debe entregar el paquete con id **idPaquete**
+        *El paquete con id **idPaquete** se encuentra en el mapa
+        *El cliente que espera el paquete se encuentra en el mapa
+    */
+    LlevarRepartidorAPaqueteConId_(idPaquete)
+    LlevarPaqueteAlCliente()
+}
+
+procedure LlevarRepartidorAPaqueteConId_(idPaquete){
+    /*
+    PROPÓSITO: Llevar al repartidor de la ubicación actual al paquete con id **idPaquete.
+    PRECONDICIONES:
+        *El paquete con id **idPaquete existe en el mapa y el mismo no fue entragado.
+        *El cabezal se encuentra sobre el repartidor que debe entregar el paquete.
+    */
+    idRepartidor := idRepartidorAcá()
+    SacarRepartidor() //Sacar_DeColor_(idRepartidorAca(), repartidor())
+    IrAlPaquete_(idPaquete)
+    PonerRepartidor_(idRepartidor)//Poner_DeColor_(idRepartidor, repartidor())
+}
+
+procedure IrAlPaquete_(idPaquete){
+    /*
+    PROPÓSITO: lleva el cabezal al paquete de id **idPaquete** 
+    PARÁMETROS:
+        *idPaquete : Número - el id del paquete a llevar el cabezal
+    PRECONDICIONES:
+        *Debe estar en el mapa la ubicación del paquete de id **idPaquete**
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(not esPaqueteDeId_(idPaquete)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+}
+
+function esPaqueteDeId_(idPaquete){
+        /*
+    PROPÓSITO: Indica si hay un paquete con id **idPaquete** en la celda actual.
+    PRECONDICIONES: 
+        *Ninguna.
+    TIPO: Booleano
+    */
+    return(hayPaqueteAcá() &&  idPaqueteAcá() == idPaquete)
+}
+
+procedure LlevarPaqueteAlCliente(){
+    /*
+    PROPÓSITO: Lleva el paquete de la ubicación actual al cliente que lo espera.
+    PRECONDIDICIONES:
+        *El cliente se encuentra en el mapa y todavía no ha recibido el paquete.
+        *El repartidor que debe entregar el paquete se encuentra en la ubicación actual.
+        *El paquete a entregar está en la ubicación actual.
+    */
+    idRepartidor := idRepartidorAcá()
+    idPaquete := idPaqueteAcá()
+    SacarRepartidor()
+    SacarPaquete()
+    SacarCódigo()
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(not esClienteId_(idPaquete)){
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    EntregarPaquete_DelRepartidor_(idPaquete,idRepartidor)
+}
+
+procedure EntregarPaquete_DelRepartidor_(idPaquete, idRepartidor){
+     /*
+    PROPÓSITO: Entregar el paquete *idPaquete* del repartidor *idRepartidor* en la ubicación actual
+    PARÁMETROS:
+        *idPaquete: Número - el id del paquete a entregar
+        *idRepartidor: Número - el id del repartidor que entrega el paquete
+    PRECONDICIONES:
+        *En la ubicación no debe haber un paquete
+        *En la ubicación no debe haber un repartidor
+    */
+    PonerPaquete_(idPaquete)
+    PonerRepartidor_(idRepartidor)
+}
+
+
+
+
+
+
