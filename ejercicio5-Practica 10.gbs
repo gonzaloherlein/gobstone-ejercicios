@@ -1,0 +1,49 @@
+program{
+    german := nuevaPersona("22","Belgica",True)
+    ignacio := nuevaPersona("23","Kiernan",False)
+    hijoDeGerman := personaNacidaDe_(german)
+    
+    return(persona_ConDomicilioNuevoEn_(german,"Chuquisaca"))
+}
+
+type Persona is record{
+    field dni
+    field domicilio
+    field esDonante
+}
+
+function nuevaPersona(nuevoDni,nuevoDomicilio,nuevoEsDonante){
+    return(
+        Persona(
+            dni <- nuevoDni,
+            domicilio <- nuevoDomicilio,
+            esDonante <- nuevoEsDonante
+            )
+        )
+}
+
+function sonConvivientes_Y_(primeraPersona, segundaPersona){
+    return(domicilio(primeraPersona) == domicilio(segundaPersona))
+}
+
+function personaNacidaDe_(madre){
+    return(
+        Persona(
+            dni <- sinAsignar(),
+            domicilio <- domicilio(madre),
+            esDonante <- False
+            )
+        )
+}
+
+function sinAsignar(){
+    return(" ")
+}
+
+function persona_RegistradaCon_(personaSinDni, dniAAsignar){
+    return(nuevaPersona(dniAAsignar, domicilio(personaSinDni), esDonante(personaSinDni)))
+}
+
+function persona_ConDomicilioNuevoEn_(persona, nuevoDomicilio){
+    return(nuevaPersona(dni(persona), nuevoDomicilio, esDonante(persona)))
+}
