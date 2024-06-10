@@ -1,6 +1,6 @@
 //Biblioteca
 program{
-    return(nroBolitasTotalDeColor_(Negro))
+    return(losMayoresA_De_(7, [3,9,7,8,5,10]))
 }
 
 //Practica 2 - Ejercicio 3.a
@@ -242,4 +242,125 @@ function nroBolitasTotalDeColor_(color){
     }
     return(nroTotalDeBolitasDeColor)
 }
+
+//Practica 11 - Ejercicio 14
+function reversoDe_(unaLista){
+    listaReversa := []
+    listaOriginal := unaLista
+    while (not esVacía(listaOriginal)) {
+        listaReversa := [primero(listaOriginal)] ++ listaReversa
+        listaOriginal := resto(listaOriginal)
+    }
+    return (listaReversa)
+}
+
+//Practica 11 - Ejercicio 15 a
+function longitudDe_(unaLista){
+    restoLista := unaLista
+    cantidad := 0
+    while(not esVacía(restoLista)){
+        cantidad := cantidad + 1
+        restoLista := resto(restoLista)
+    }
+    return(cantidad)
+}
+
+//Practica 11 - Ejercicio 15 b
+function sumatoriaDe_(unaLista){
+    sumatoria := 0
+    listaOriginal := unaLista
+    while (not esVacía(listaOriginal)) {
+        sumatoria := primero(listaOriginal) + sumatoria
+        listaOriginal := resto(listaOriginal)
+    }
+    return(sumatoria)
+}
+
+//Practica 11 - Ejercicio 15 c
+function productoriaDe_(unaLista){
+    listaOriginal := unaLista
+    producto := primero(listaOriginal)
+    listaOriginal := resto(listaOriginal)
+    while (not esVacía(listaOriginal)) {
+        producto := primero(listaOriginal) * producto
+        listaOriginal := resto(listaOriginal)
+    }
+    return(producto)
+}
+
+//Practica 11 - Ejercicio 16 d
+function direccionesOpuestasDe_(unaLista){
+    listaOpuestos := []
+    listaOriginal := unaLista
+    while (not esVacía(listaOriginal)) {
+        listaOpuestos := listaOpuestos ++ [opuesto(primero(listaOriginal))] 
+        listaOriginal := resto(listaOriginal)
+    }
+    return (listaOpuestos)
+}
+
+//Practica 11 - Ejercicio 16 e 
+function siguientesDe_(unaLista){
+    listaSiguientes := []
+    listaOriginal := unaLista
+    while (not esVacía(listaOriginal)) {
+        listaSiguientes := listaSiguientes ++ [siguiente(primero(listaOriginal))] 
+        listaOriginal := resto(listaOriginal)
+    }
+    return (listaSiguientes)
+}
+
+//Practica 11 - Ejericio 16 f
+function elementosDe_multiplicadosPor_(unaLista, multiplicador){
+    listaMultiplicados := []
+    listaOriginal := unaLista
+    while (not esVacía(listaOriginal)) {
+        listaMultiplicados := listaMultiplicados ++ [multiplicador * primero(listaOriginal)]
+        listaOriginal := resto(listaOriginal)
+    }
+    return (listaMultiplicados)
+}
+
+//Practica 11 - Ejercicio 17 g
+function númerosParesDe_(unaLista){
+    listaPares := []
+    listaOriginal := unaLista
+    while(not esVacía(listaOriginal)){
+        if(primero(listaOriginal) mod 2 == 0){
+            listaPares := listaPares ++ [primero(listaOriginal)]
+        }
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaPares)
+}
+
+//Practica 11 - Ejercicio 17 h
+function laLista_SinElElemento_(unaLista, elementoAEliminar){
+    listaSinElemento := []
+    listaOriginal := unaLista
+    while(not esVacía(listaOriginal)){
+        if(primero(listaOriginal) /= elementoAEliminar){
+            listaSinElemento := listaSinElemento ++ [primero(listaOriginal)]
+        }
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaSinElemento)
+}
+
+//Practica 11 - Ejercicio 17 i
+function losMayoresA_De_(umbral, unaLista){
+    listaMayorAUmbral := []
+    listaOriginal := unaLista
+    while(not esVacía(listaOriginal)){
+        if(primero(listaOriginal) > umbral){
+            listaMayorAUmbral := listaMayorAUmbral ++ [primero(listaOriginal)]
+        }
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaMayorAUmbral)
+}
+
+
+
+
 
