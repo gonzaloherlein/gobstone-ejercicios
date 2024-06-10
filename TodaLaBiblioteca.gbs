@@ -1,6 +1,6 @@
 //Biblioteca
 program{
-    return(losMayoresA_De_(7, [3,9,7,8,5,10]))
+    return(contiene_A_([21,3,42], 21))
 }
 
 //Practica 2 - Ejercicio 3.a
@@ -360,7 +360,26 @@ function losMayoresA_De_(umbral, unaLista){
     return(listaMayorAUmbral)
 }
 
+//Practica 11 - Ejercicio 18 j
+function contiene_A_(unaLista, unElemento){
+    contiene := False
+    listaOriginal := unaLista
+    while(not esVacía(listaOriginal)){
+        if(primero(listaOriginal) == unElemento){
+            contiene := True
+        }
+        listaOriginal := resto(listaOriginal)
+    }
+    
+    return(contiene)
+}
 
-
-
+//Practica 11 - Ejercicio 19
+function sinDuplicados_(unaLista){
+    listaSinDuplicados := []
+    listaOriginal := unaLista
+    while(not esVacía(listaOriginal)){
+        
+    }
+}
 
