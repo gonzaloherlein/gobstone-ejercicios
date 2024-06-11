@@ -1,6 +1,6 @@
 //Biblioteca
 program{
-    return(contiene_A_([21,3,42], 21))
+    return(lista_estáIncluidaEn_([4,5,2,3,10],[2,3,4,6,5]))
 }
 
 //Practica 2 - Ejercicio 3.a
@@ -379,7 +379,28 @@ function sinDuplicados_(unaLista){
     listaSinDuplicados := []
     listaOriginal := unaLista
     while(not esVacía(listaOriginal)){
-        
+        if(not (contiene_A_(listaSinDuplicados,primero(listaOriginal)))){
+            listaSinDuplicados := listaSinDuplicados ++ [primero(listaOriginal)]
+        }
+        listaOriginal := resto(listaOriginal)
     }
+    return(listaSinDuplicados)
 }
 
+//Practica 11 - Ejercicio 21
+function  lista_estáIncluidaEn_(unaLista, otraLista){
+    primeraLista := unaLista
+    segundaLista := otraLista
+    listaDeElementosIncluidos := []
+    esListaIncluida := False
+    while(not esVacía(primeraLista)){
+        if(contiene_A_(segundaLista, primero(primeraLista))){
+           listaDeElementosIncluidos := listaDeElementosIncluidos ++ [primero(primeraLista)] 
+        }
+        primeraLista := resto(primeraLista)
+    }
+    if(listaDeElementosIncluidos == unaLista){
+        esListaIncluida := True
+    }
+    return(esListaIncluida)
+}
