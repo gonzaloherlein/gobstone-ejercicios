@@ -1,0 +1,114 @@
+program{
+    
+    unoDeBasto :=  nuevaCarta(1,Basto)
+    unoDeCopa :=  nuevaCarta(1,Copa)
+    unoDeOro :=  nuevaCarta(1,Oro)
+    cartasEnElMazo := [unoDeBasto,  unoDeCopa, unoDeOro]
+    cartasEnLaMano := []
+    return(laMano_LuegoDeRobarUnaCartaDe_(cartasEnLaMano, cartasEnElMazo))
+}
+
+function primerCartaDeLaMano_(cartasEnLaMano){
+    return(primero(cartasEnLaMano))
+}
+
+function segundaCartaDeLaMano_(cartasEnLaMano){
+    return(primero(resto(cartasEnLaMano)))
+}
+
+function terceraCartaDeLaMano_(cartasEnLaMano){
+    return(primero(resto(resto(cartasEnLaMano))))
+}
+
+function laMano_LuegoDeRobarUnaCartaDe_(cartasEnLaMano, cartasEnElMazo){
+    mazoActualizado := []
+    manoActualizada := []
+        
+        while(longitudDe_(cartasEnLaMano) <= 3){
+            
+        manoActualizada := [primerCartaDeLaMano_(cartasEnElMazo)] ++ [segundaCartaDeLaMano_(cartasEnElMazo)] ++ [terceraCartaDeLaMano_(cartasEnElMazo)]
+        mazoActualizado := mazoActualizdo ++ resto(cartasEnElMazo)
+
+        //cartasEnLaMano := cartasEnLaMano 
+    //}
+    return (manoActualizada)
+}
+
+function longitudDe_(unaLista){
+    restoLista := unaLista
+    cantidad := 0
+    while(not esVacía(restoLista)){
+        cantidad := cantidad + 1
+        restoLista := resto(restoLista)
+    }
+    return(cantidad)
+}
+
+type Carta is record{
+    /*
+    Prop.:
+    Inv.De Rep.:  El campo numero tiene que estar comprendido entre 1 y 12
+    */
+    field palo     // Palo
+    field numero  //Numero
+}
+
+type Palo is variant {
+    
+    case Basto{}
+    case Copa{}
+    case Oro{}
+    case Espada{}
+    
+}
+
+function anchoDeEspadas(){
+    /*Prop: Describe el 1 de espadas
+    Prec: Ninguna
+    Param: No
+    Tipo: Carta
+    */
+    
+    return(
+        Carta(//Esto es un constructor
+            numero <- 1,
+            palo <- Espada
+            )
+        )
+} 
+
+function nuevaCarta(nro,palo){
+    return(Carta(palo <- palo, numero <- nro)
+    )
+}
+
+//Y ahora viene la funcion constructora
+function laCarta_de_(numeroDeLaCarta, paloDeLaCarta){
+    /* 
+    Prop: Describe la carta *numeroDeLaCarta* de *paloDeLaCarta*
+    Prec: *numeroDeCarta* debe estar comprendido entre 1 y 12
+    Param: 
+        -*numeroDeLaCarta*: Numero.
+        -*paloDeLaCarta*: Palo.
+    Tipo: Carta
+    
+    */
+    return(
+        Carta(//Esto es un constructor
+        numero <- numeroDeLaCarta,
+        palo <- paloDeLaCarta
+        )
+    )
+}
+
+
+//Funciones observadoras: Cuando declaro un tipo record, los campos son las funciones observadoras. Func. que inspeccionan ese registro que se le coloque
+// Ej: palo(anchoDeEspadas()) ---> Devuelve 1
+
+//Dif entre constructor y funcion constructora: 
+//A la segunda vos le das parametros y la funcion construye a traves de un constructor. 
+//Para el segundo se utiliza la palabra que hayas elegido para el registro.
+
+
+
+

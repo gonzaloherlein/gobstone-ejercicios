@@ -1,0 +1,96 @@
+//Recorrer una lista: 
+/*function longitudDe_(unaLista){
+    restoLista := unaLista
+    cantidad := 0
+    
+    while(not esVacia(restoLista)){
+        cantidad := cantidad + 1
+        restoLista  := resto(restoLista)
+    }
+    return(cantidad)
+}*/
+
+
+unaRuta := [recta, curvaIzquierda, curvaDerecha, recta, curvaIzquierda ]
+//Ejercicio 1
+//a
+
+function haySiguienteTramoEn_(unaRuta){
+    /*Prop: Indica si la ruta tiene al menos un tramo completo.
+    Prec:
+    Tipo: Boolean*/
+    return( choose True when (not esVacia(unaRuta)))
+                   False otherwise
+        )
+}
+
+//b
+
+function sigueRectaEn_(unaRuta){
+    return ( choose True when (primero(resto(unaRuta))) == "recta")
+            choose False otherwise
+            )
+}
+
+//c 
+function sigueCurvaDerechaEn_(unaRuta){
+    return( choose True when (primero(unaRuta)) == "curvaDerecha")
+            choose False otherwise
+            )
+}
+
+//d 
+function sigueCurvaIzquierdaEn_(unaRuta){
+    return( choose True when (primero(unaRuta)) == "curvaIzquierda")
+            choose False otherwise
+            )
+}
+
+//e
+function sigueCurva_(unaRuta){
+    return( choose True when (primero(unaRuta)) == "curvaDerecha" || "curvaIzquierda")
+            choose False otherwise
+            )
+}
+
+////////////////////////////////////////////////
+//Ejercicio 2
+
+cartasEnElMazo := []
+cartasEnLaMano := []
+
+//a
+function primerCartaDeLaMano_(cartasEnLaMano){
+    return(primero(cartasEnLaMano)
+}
+
+//b 
+function segundaCartaDeLaMano_(cartasEnLaMano){
+    return(resto(primero(cartasEnLaMano))
+}
+
+//c 
+function terceraCartaDeLaMano_(cartasEnLaMano){
+    return(primero(resto(resto(cartasEnLaMano)))
+}
+
+//d 
+function laMano_LuegoDeRobarUnaCartaDe_(cartasEnLaMano, cartasEnElMazo){
+    cartasRobadas := []
+    while(cartasRobadas <3){
+        cartasEnElMazo := cartasEnElMazo - primero(cartasEnElMazo)
+        cartasEnLaMano := cartasEnLaMano + primero(cartasEnLaMano)
+    }
+    return (cartasEnLaMano)
+}
+
+//e
+
+function laMano_LuegoDeJugarUnaCarta(cartasEnLaMano){
+    return (cartasEnLaMano - primero(cartasEnLaMano)
+}
+
+//f 
+function laMano_LuegoDeJugarLaSegundaCarta(cartasEnLaMano){
+    return (cartasEnLaMano - primero(resto(cartasEnLaMano)))
+}

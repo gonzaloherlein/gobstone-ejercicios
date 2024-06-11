@@ -1,6 +1,6 @@
 //Biblioteca
 program{
-    return(lista_estáIncluidaEn_([4,5,2,3,10],[2,3,4,6,5]))
+    return(sinElMáximoElemento_([13,21,3,9,45,3,7]))
 }
 
 //Practica 2 - Ejercicio 3.a
@@ -374,6 +374,7 @@ function contiene_A_(unaLista, unElemento){
     return(contiene)
 }
 
+
 //Practica 11 - Ejercicio 19
 function sinDuplicados_(unaLista){
     listaSinDuplicados := []
@@ -385,6 +386,23 @@ function sinDuplicados_(unaLista){
         listaOriginal := resto(listaOriginal)
     }
     return(listaSinDuplicados)
+}
+
+//Practica 11 - Ejercicio 20
+function posicionDe_enLaQueAparece_(unaLista, elemento){
+    listaExistente := unaLista
+    posicionEnLaQueAparece := 0
+    posicionActual := 0
+    while(not esVacía(listaExistente)){
+       if(elemento /= primero(listaExistente)){
+           posicionActual := posicionActual + 1
+       } else {
+           posicionEnLaQueAparece := posicionActual
+       }
+       listaExistente := resto(listaExistente)
+    }
+    
+    return(posicionEnLaQueAparece)
 }
 
 //Practica 11 - Ejercicio 21
@@ -403,4 +421,75 @@ function  lista_estáIncluidaEn_(unaLista, otraLista){
         esListaIncluida := True
     }
     return(esListaIncluida)
+}
+
+//Practica 11 - Ejercicio 22 
+function intersecciónDe_Con_(unaLista,otraLista){
+    primeraLista := unaLista
+    segundaLista := otraLista
+    listaDeInterseccion := []
+    while(not esVacía(primeraLista)){
+        if(contiene_A_(segundaLista, primero(primeraLista))){
+           listaDeInterseccion := listaDeInterseccion ++ [primero(primeraLista)] 
+        }
+        primeraLista := resto(primeraLista)
+    }
+    return(listaDeInterseccion)
+}
+
+function uniónDe_Con_(unaLista, otraLista){
+    primeraLista := unaLista
+    segundaLista := otraLista
+    listaDeUnion := [] ++ primeraLista
+    while(not esVacía(segundaLista)){
+        if(not contiene_A_(primeraLista, primero(segundaLista))){
+           listaDeUnion := listaDeUnion ++ [primero(segundaLista)] 
+        }
+        segundaLista := resto(segundaLista)
+    }
+    return(listaDeUnion)
+}
+
+//Practica 11 - Ejercicio 23
+function minimoElementoDe_(unaLista){
+    listaOriginal := unaLista
+    minimoElemento := primero(listaOriginal)
+    while(not esVacía(listaOriginal)){
+        if(minimoElemento > primero(listaOriginal)){
+            minimoElemento := primero(listaOriginal)
+        }
+        listaOriginal := resto(listaOriginal)
+    }
+    return(minimoElemento)
+}
+
+function sinElMínimoElemento_(unaLista){
+    return(laLista_SinElElemento_(unaLista,minimoElementoDe_(unaLista)))
+}
+
+function lista_ordenada(unaLista){
+    listaOriginal := unaLista
+    listaOrdenada := []
+    while(not esVacía(listaOriginal)){
+        listaOrdenada := listaOrdenada ++ [minimoElementoDe_(listaOriginal)]
+        listaOriginal := sinElMínimoElemento_(listaOriginal)
+    }
+    return(listaOrdenada)
+}
+
+//Practica 11 - Ejercicio 24
+function maximoElementoDe_(unaLista){
+    listaOriginal := unaLista
+    maximoElemento := primero(listaOriginal)
+    while(not esVacía(listaOriginal)){
+        if(maximoElemento < primero(listaOriginal)){
+            maximoElemento := primero(listaOriginal)
+        }
+        listaOriginal := resto(listaOriginal)
+    }
+    return(maximoElemento) 
+}
+
+function sinElMáximoElemento_(unaLista){
+    return(laLista_SinElElemento_(unaLista,maximoElementoDe_(unaLista)))
 }

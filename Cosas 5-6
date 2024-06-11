@@ -1,0 +1,119 @@
+//Ejercicios clase 
+//Revisión punto 2
+/*
+function laLista_SinSegundoElemento(unaLista){
+    primerElemento := primero(unaLista)
+    segundoElemento := primero(resto(resto(unaLista)))
+    
+    listaResultante := [primero(unaLista)] ++ [segundoElemento(unaLista)]
+    return(listaResultante)
+}
+*/
+
+//punto 3
+
+function listaDeCantidadesDeRojasDeLaFila() {
+    /*Prop: Describe una lista con las cantidades de bolitas rojas que hay en la fila donde esta ubicado el cabezal. De izauierda a derecha
+    Prec: El cabezal está sobre la fila en cuestión
+    Tipo: Lista
+    */
+    IrAlBorde(Oeste)
+    listaDeRojas := [nroBolitas(Rojo)]
+    while(puedeMover(Este)){
+        Mover(Este)
+        //Actualizar Lista
+            listaDeRojas := listaDeRojas ++ [nroBolitas(Rojo)]
+    }
+    return(listaDeRojas)
+}
+
+//punto 5
+
+function coloresEnCeldaActual(){
+      /*Prop: Describe una lista con los colores que hay en la celda actual
+    Prec: Tu vieja
+    Tipo: Lista
+    */
+    colorRecorrido := minColor()
+    listaDeColores := []
+    while(colorRecorrido /= maxColor()){
+        //Actualizar Lista
+        listaDeColores := concatena_Con_SoloSi_(listaDeColores, [colorRecorrido], hayBolitas(colorRecorrido))
+        colorRecorrido := siguiente(colorRecorrido)
+        
+    }
+    listaDeColores := concatena_Con_SoloSi_(listaDeColores, [colorRecorrido], hayBolitas(colorRecorrido))
+    return(listaDeColores)  
+}
+
+function concatena_Con_SoloSi_(unaLista, otraLista, condicion){
+    return(
+        choose unaLista ++ otraLista when (condicion)
+                unaLista otherwise
+        )
+}
+
+//Ejercicio 9 - Funciones Genéricas
+
+function singular_(unElemento){
+    return([unElemento])
+}
+
+function esSingular_(unaLista){
+    return(not(esVacía(unaLista)) && esVacía(resto(unaLista)))
+}
+
+function conElemento_AlFinalDe_(unElemento, unaLista){
+    listaResultante :=  unaLista ++ [unElemento]
+    return(listaResultante)
+}
+
+function conElemento_AlComienzoDe_(unElemento, unaLista){
+    listaResultante := [unElemento] ++ unaLista
+    return(listaResultante)
+}
+
+function listaConElemento_Repetido_Veces(unElemento, repeticiones){
+    
+    unaLista := []
+    cantidadDeRepeticiones := 0
+    while(cantidadDeRepeticiones < repeticiones){
+        unaLista := unaLista ++ [unElemento]
+        cantidadDeRepeticiones := cantidadDeRepeticiones + 1
+    }
+    
+    /*repeat(repeticiones){
+        unaLista := unaLista ++ [unElemento] 
+    }*/
+
+    return(unaLista)
+}
+
+program{
+    return(listaConElemento_Repetido_Veces(Verde,200))
+}
+
+//reverso ---> resto+primero
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
