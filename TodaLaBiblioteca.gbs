@@ -1,6 +1,6 @@
 //Biblioteca
 program{
-    return(sinElMáximoElemento_([13,21,3,9,45,3,7]))
+    return(minimoElementoDe_([132,216,98,344,70]))
 }
 
 //Practica 2 - Ejercicio 3.a
@@ -362,18 +362,58 @@ function losMayoresA_De_(umbral, unaLista){
 
 //Practica 11 - Ejercicio 18 j
 function contiene_A_(unaLista, unElemento){
-    contiene := False
     listaOriginal := unaLista
-    while(not esVacía(listaOriginal)){
-        if(primero(listaOriginal) == unElemento){
-            contiene := True
-        }
+    while(not esVacía(listaOriginal) && not primero(listaOriginal) == unElemento){
         listaOriginal := resto(listaOriginal)
     }
-    
-    return(contiene)
+    return(not esVacía(listaOriginal))
 }
 
+//Practica 11 - Ejercicio 18 k
+function algunoMayorQué_En_(unElemento, listaDeElementos){
+    listaOriginal := listaDeElementos
+    while(not esVacía(listaOriginal) && not primero(listaOriginal) > unElemento) {
+        listaOriginal := resto(listaOriginal)
+    }
+    return(
+        not esVacía(listaOriginal)
+        )
+}
+
+
+//Practica 11 - Ejercicio 18 l
+function  hayAlgunoDe_Entre_Y_(listaDeElementos,desde,hasta){
+    listaOriginal := listaDeElementos
+    while(not esVacía(listaOriginal) && not esVerdaderoSi_EstaEntre_Y_(primero(listaOriginal), desde,hasta)){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(not esVacía(listaOriginal))
+}
+
+function esVerdaderoSi_EstaEntre_Y_(elemento,desde,hasta){
+    return(
+        choose True when (elemento > desde && elemento < hasta)
+               False otherwise
+    )
+}
+
+//Practica 11 - Ejercicio 18 m
+function  hayAlgúnElementoImparDe_(listaDeElementos){
+    listaOriginal := listaDeElementos
+    while(not esVacía(listaOriginal) && not esImpar_(primero(listaOriginal))){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(
+        not esVacía(listaOriginal)
+        )
+}
+
+function esImpar_(unElemento){
+    return(
+        choose False when (unElemento mod 2 == 0)
+               True otherwise
+        )
+}
 
 //Practica 11 - Ejercicio 19
 function sinDuplicados_(unaLista){
@@ -455,12 +495,17 @@ function minimoElementoDe_(unaLista){
     listaOriginal := unaLista
     minimoElemento := primero(listaOriginal)
     while(not esVacía(listaOriginal)){
-        if(minimoElemento > primero(listaOriginal)){
-            minimoElemento := primero(listaOriginal)
-        }
+        minimoElemento := esMenor_Que_(minimoElemento,primero(listaOriginal))
         listaOriginal := resto(listaOriginal)
     }
     return(minimoElemento)
+}
+
+function esMenor_Que_(primerElemento,segundoElemento){
+    return(
+        choose primerElemento when (primerElemento < segundoElemento)
+               segundoElemento otherwise
+        )    
 }
 
 function sinElMínimoElemento_(unaLista){
@@ -482,12 +527,17 @@ function maximoElementoDe_(unaLista){
     listaOriginal := unaLista
     maximoElemento := primero(listaOriginal)
     while(not esVacía(listaOriginal)){
-        if(maximoElemento < primero(listaOriginal)){
-            maximoElemento := primero(listaOriginal)
-        }
+        maximoElemento := esMayor_Que_(maximoElemento,primero(listaOriginal))
         listaOriginal := resto(listaOriginal)
     }
     return(maximoElemento) 
+}
+
+function esMayor_Que_(primerElemento,segundoElemento){
+    return(
+        choose primerElemento when (primerElemento > segundoElemento)
+               segundoElemento otherwise
+        )    
 }
 
 function sinElMáximoElemento_(unaLista){

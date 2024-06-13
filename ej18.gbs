@@ -1,0 +1,60 @@
+program{
+    return(
+         hayAlgúnElementoImparDe_([2,4,8,8])
+        )
+}
+
+//Practica 11 - Ejercicio 18 j
+function contiene_A_(unaLista, unElemento){
+    listaOriginal := unaLista
+    while(not esVacía(listaOriginal) && not primero(listaOriginal) == unElemento){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(not esVacía(listaOriginal))
+}
+
+//Practica 11 - Ejercicio 18 k
+function algunoMayorQué_En_(unElemento, listaDeElementos){
+    listaOriginal := listaDeElementos
+    while(not esVacía(listaOriginal) && not primero(listaOriginal) > unElemento) {
+        listaOriginal := resto(listaOriginal)
+    }
+    return(
+        not esVacía(listaOriginal)
+        )
+}
+
+
+//Practica 11 - Ejercicio 18 l
+function  hayAlgunoDe_Entre_Y_(listaDeElementos,desde,hasta){
+    listaOriginal := listaDeElementos
+    while(not esVacía(listaOriginal) && not esVerdaderoSi_EstaEntre_Y_(primero(listaOriginal), desde,hasta)){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(not esVacía(listaOriginal))
+}
+
+function esVerdaderoSi_EstaEntre_Y_(elemento,desde,hasta){
+    return(
+        choose True when (elemento > desde && elemento < hasta)
+               False otherwise
+    )
+}
+
+//Practica 11 - Ejercicio 18 m
+function  hayAlgúnElementoImparDe_(listaDeElementos){
+    listaOriginal := listaDeElementos
+    while(not esVacía(listaOriginal) && not esImpar_(primero(listaOriginal))){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(
+        not esVacía(listaOriginal)
+        )
+}
+
+function esImpar_(unElemento){
+    return(
+        choose False when (unElemento mod 2 == 0)
+               True otherwise
+        )
+}

@@ -1,0 +1,76 @@
+program{
+    anchoDeOro := Carta(numero <- 1, palo <- Oro)
+    sieteDeOro := Carta(numero <- 7, palo <- Oro)
+    dosDeOro := Carta(numero <- 2, palo <- Oro)
+    doceDeCopa := Carta(numero <- 12, palo <- Basto)
+    listaDeCartas := [anchoDeOro,sieteDeOro,doceDeCopa,dosDeOro]
+    
+    return(
+        hayAlgunaDeCopaEn_(listaDeCartas)
+        )
+}
+
+type Carta is record{
+    field numero
+    field palo
+}
+
+type Palo is variant{
+    case Oro{}
+    case Espada{}
+    case Basto{}
+    case Copa{}
+}
+
+//Ejercicio 27
+function hayAlgunaDeCopaEn_(listaDeCartas){
+    listaOriginal := listaDeCartas
+    while(not esVacía(listaOriginal) && not esDeCopa_(primero(listaOriginal))){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(not esVacía(listaOriginal))
+}
+
+function esDeCopa_(elemento){
+    return(
+        choose True when (palo(elemento) == Copa)
+               False otherwise
+        )
+}
+
+//Ejercicio 26
+function soloLasDeOro_(listaDeCartas){
+    listaDeOro := []
+    listaOriginal := listaDeCartas
+    while(not esVacía(listaOriginal)){
+        listaDeOro := concatenar_Con_Si_(listaDeOro,[primero(listaOriginal)], esDeOro_(primero(listaOriginal)))
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaDeOro)
+}
+
+function esDeOro_(unElemento){
+    return(
+        choose True when (palo(unElemento) == Oro)
+               False otherwise
+        )
+}
+
+//Ejercicio 25
+function losNumerosDeLasCartas_(listaDeCartas){
+    listaDeNumeroDeLasCartas := []
+    listaOriginal := listaDeCartas
+    while(not esVacía(listaOriginal)){
+        listaDeNumeroDeLasCartas := listaDeNumeroDeLasCartas ++ [numero(primero(listaOriginal))]
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaDeNumeroDeLasCartas)
+}
+
+
+function concatenar_Con_Si_(primeraLista,segundaLista,condicion){
+    return(
+        choose primeraLista ++ segundaLista when (condicion)
+               primeraLista otherwise
+        )
+}
