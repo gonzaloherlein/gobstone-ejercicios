@@ -1,0 +1,93 @@
+function lista_estáIncluidaEn_(unaLista, otraLista){
+    /*prop: indica si la primer lista se encuentra contenida en la segunda lista.
+     
+     prec:
+         *ambas listas deben contener elementos del mismo tipo
+         *ambas listas no tienen elementos repetidos.
+         
+         
+     parametros:
+                *unaLista-listas: lista de elementos
+                *otraLista-listas: lista de elementos
+    tipo:booleano
+    */
+    
+    primerLista := unaLista
+    
+   // primerElemento := primero(primerLista)
+               
+    while(not esVacía(primerLista) && lista_EsMenorOIgualALista_(unaLista,otraLista) && contiene_A_(otraLista , primero(primerLista))){
+        
+        
+        
+       // primerElemento := primero(primerLista)
+        primerLista := resto(primerLista)
+    }
+    
+    return(esVacía(primerLista))
+    
+}
+
+function lista_EsMenorOIgualALista_(unaLista,otraLista){
+    
+    
+    
+    return(longitudDe_(unaLista) <= longitudDe_(otraLista))
+    
+}
+
+
+function contiene_A_(unaLista, unElemento) {
+    /*
+    PROPOSITO: Indica si el elemento esta en la lista
+    PRECONDICION: Ninguna
+    PARAMETROS: *unaLista* - Lista - Lista de elementos a verificar
+                *unElemento* - Elemento de lista - Elemento a verificar en lista
+    TIPO: Booleano
+    */
+    quedanVerificar := unaLista
+    while (not esVacía(quedanVerificar) && primero(quedanVerificar) /= unElemento){
+        quedanVerificar := resto(quedanVerificar) 
+    }
+    
+   return (not esVacía(quedanVerificar) && primero(quedanVerificar) == unElemento)
+
+ }
+
+function longitudDe_(unaLista){
+    /*prop: describe la cantidad de elementos de la misma.
+    
+    *prec:Ninguno.
+    
+    parametros:
+    
+                *unaLista-Lista:lista de elementos
+    
+    tipo:Numero
+    */
+    
+    lista := unaLista
+    cantidadDeElementos:= 0
+    while(not esVacía(lista)){
+        cantidadDeElementos:= cantidadDeElementos+1
+            lista:= resto(lista)
+    }
+            
+    return(cantidadDeElementos)
+}
+
+
+
+// 22.Listas como conjuntos
+
+
+
+
+program{
+    
+    unaLista := [8,9,10]
+    otraLista :=[1,3,4,5,7,6,2]
+    
+    
+    return(lista_estáIncluidaEn_(unaLista, otraLista))
+}

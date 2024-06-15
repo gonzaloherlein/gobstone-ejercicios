@@ -1,0 +1,72 @@
+program{
+    listaDeTemasParaElCurso := [1,2]
+    primerParcial := Parcial(tema <- 1,nota <- 6)
+    segundoParcial := Parcial(tema <- 1,nota <- 3)
+    primerAlumno := Alumno(legajo <- 1,listaDeParciales <- [primerParcial])
+    segundoAlumno := Alumno(legajo <- 2,listaDeParciales <- [primerParcial])
+    tercerAlumno := Alumno(legajo <- 3,listaDeParciales <- [primerParcial])
+    cuartoAlumno := Alumno(legajo <- 4,listaDeParciales <- [segundoParcial])
+    listaDeTresAlumnos := [primerAlumno,segundoAlumno,tercerAlumno,cuartoAlumno]
+    curso := Curso(listaDeAlumnos <- listaDeTresAlumnos,listaDeTemas <- listaDeTemasParaElCurso)
+    return(vaBien(curso))
+}
+
+type Alumno is record{
+    field legajo
+    field listaDeParciales
+    
+}
+
+type Parcial is record{
+    field tema
+    field nota
+}
+
+type Curso is record{
+    field listaDeAlumnos
+    field listaDeTemas
+}
+
+
+function aprobo(curso,legajo,tema){
+    listaDeAlumnosOriginal := listaDeAlumnos(curso)
+    while(not esVacía(listaDeAlumnosOriginal) && not esAlumnoAprobadoDelTema_ConLegajo_(tema,legajo,primero(listaDeAlumnosOriginal))){
+        listaDeAlumnosOriginal := resto(listaDeAlumnosOriginal)
+    }
+    return(not esVacía(listaDeAlumnosOriginal))
+}
+
+
+function esAlumnoAprobadoDelTema_ConLegajo_(tema,legajo,alumno){
+    parcialDelAlumno := primero(listaDeParciales(alumno))
+    return(legajo(alumno) == legajo && tema(parcialDelAlumno) == tema && nota(parcialDelAlumno) >= 4)
+    
+}
+
+//5
+function vaBien(curso){
+    alumnosQueVanBien := 0
+    listaDeAlumnosDelCurso := listaDeAlumnos(curso)
+    while(not esVacía(listaDeAlumnosDelCurso)){
+            alumnosQueVanBien := alumnosQueVanBien + unoSiElAlumnoAprobó_CeroSiNo(curso,legajo(primero(listaDeAlumnosDelCurso)),tema(primero(listaDeParciales(primero(listaDeAlumnosDelCurso)))))
+            listaDeAlumnosDelCurso := resto(listaDeAlumnosDelCurso)
+    }
+    return(alumnosQueVanBien > longitudDe_(listaDeAlumnos(curso)) div 2)
+}
+
+function unoSiElAlumnoAprobó_CeroSiNo(curso,legajo,tema){
+    return(
+        choose 1 when (aprobo(curso,legajo,tema))
+               0 otherwise
+        )
+}
+
+function longitudDe_(unaLista){
+    restoLista := unaLista
+    cantidad := 0
+    while(not esVacía(restoLista)){
+        cantidad := cantidad + 1
+        restoLista := resto(restoLista)
+    }
+    return(cantidad)
+}
