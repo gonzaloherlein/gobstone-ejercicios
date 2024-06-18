@@ -1,0 +1,114 @@
+type Repartidor is record{
+    field nombre
+    field dni
+    field empresa
+    field pesoDeCarga
+    field listaDeProductos
+}
+
+type Empresa is variant{
+    case Rappi{}
+    case MercadoEnvios{}
+    case Glovo{}
+    case PedidosYa{}
+    case CorreoArgentino{}
+}
+
+type Producto is variant{
+    case Comida{}
+    case Bebida{}
+    case Fragil{}
+    case Indumentaria{}
+    case Electronica{}
+    case Documentacion{}
+}
+
+program{
+    productos := [Comida,Bebida,Fragil]
+    repartidor1 := Repartidor(nombre <- "joseRappi", dni <- 40000001, empresa <- CorreoArgentino, pesoDeCarga <- 19, listaDeProductos <- productos)
+    repartidor2 := Repartidor(nombre <- "joseCorreo", dni <- 438, empresa <- Rappi, pesoDeCarga <- 19, listaDeProductos <- productos)
+    repartidor3 := Repartidor(nombre <- "josePedidosYa", dni <- 10, empresa <- Rappi, pesoDeCarga <- 19, listaDeProductos <- productos)
+    listaDeRepartidores := [repartidor1,repartidor2,repartidor3]
+    return(losRepartidores_Estatizados(listaDeRepartidores))
+}
+
+
+//2
+function cantidadDeRepartidoresEn_DeEmpresa_QueReparte_(listaDeRepartidores,unaEmpresa,tipoDeProducto){
+    listaOriginal := listaDeRepartidores
+    cantidadDeRepartidores := 0
+    while(not esVacía(listaOriginal)){
+        cantidadDeRepartidores := cantidadDeRepartidores + unoSiEl_TrabajaEn_YReparte_(primero(listaOriginal),unaEmpresa,tipoDeProducto)
+        listaOriginal := resto(listaOriginal)
+    }
+    return(cantidadDeRepartidores)
+}
+
+function unoSiEl_TrabajaEn_YReparte_(repartidor,empresa,producto){
+    return(
+        choose 1 when (empresa(repartidor) == empresa && busca_EnLaLista_(producto,listaDeProductos(repartidor)) == producto)
+               0 otherwise
+        )   
+}    
+
+function busca_EnLaLista_(producto, listaDeProductos){
+    listaOriginal := listaDeProductos
+    while(not esVacía(listaOriginal) && primero(listaOriginal) == producto){
+        listaOriginal := resto(listaOriginal)
+    }
+    return(producto)
+}
+
+//3
+function jovenesRepartidoresDe_En_(tipoDeProducto,listaDeRepartidores){
+    listaDeRepartidoresJovenes := []
+    listaOriginal := listaDeRepartidores
+    while(not esVacía(listaOriginal)){
+        listaDeRepartidoresJovenes := concatenar_Con_Si_(listaDeRepartidoresJovenes,[primero(listaOriginal)], es_ConDniMayorACuarentaMillonesYReparte_(primero(listaOriginal),tipoDeProducto))
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaDeRepartidoresJovenes)
+}
+
+function es_ConDniMayorACuarentaMillonesYReparte_(repartidor,tipoDeProducto){
+    return(dni(repartidor) >= 40000000 && busca_EnLaLista_(tipoDeProducto,listaDeProductos(repartidor)) == tipoDeProducto)
+}
+
+function concatenar_Con_Si_(primeraLista,segundaLista,condicion){
+    return(
+        choose primeraLista ++ segundaLista when (condicion)
+               [] otherwise
+        )
+}
+
+//4
+function losRepartidores_Estatizados(listaDeRepartidores){
+    listaDeRepartidoresAEstatizar := []
+    listaOriginal := listaDeRepartidores
+    while(not esVacía(listaOriginal)){
+        listaDeRepartidoresAEstatizar := concatenar_Con_Si_(listaDeRepartidoresAEstatizar,[primero(listaOriginal)], es_NoEstatizado(primero(listaOriginal)))
+        listaOriginal := resto(listaOriginal)
+    }
+    
+    listaDeRepartidoresEstatizados:= cambiar_A_(listaDeRepartidoresAEstatizar,CorreoArgentino)
+    return(listaDeRepartidoresEstatizados)
+}
+
+function es_NoEstatizado(repartidor){
+    return(
+            empresa(repartidor) == Rappi ||
+            empresa(repartidor) == Glovo ||
+            empresa(repartidor) == PedidosYa
+        )
+}
+
+function cambiar_A_(listaDeRepartidores,empresa){
+    listaOriginal := listaDeRepartidores
+    listaDeRepartidoresEstatizados := []
+    while(not esVacía(listaOriginal)){
+        repartidorEstatizado := Repartidor(primero(listaOriginal) | empresa <- empresa)
+        listaDeRepartidoresEstatizados := listaDeRepartidoresEstatizados ++ [repartidorEstatizado]
+        listaOriginal := resto(listaOriginal)
+    }
+    return(listaDeRepartidoresEstatizados)
+}
